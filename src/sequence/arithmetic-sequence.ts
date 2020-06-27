@@ -1,0 +1,37 @@
+import { ISequence } from "./isequence";
+import { Sequence } from "./sequence";
+
+export class ArithmeticSequence extends Sequence implements ISequence {
+  constructor(
+    readonly first: number,
+    readonly diff: number,
+    readonly length = Number.POSITIVE_INFINITY
+  ) {
+    super();
+  }
+
+  static from(array: number[]) {
+    if (array.length < 2) return null;
+
+    // prettier-ignore
+    return new ArithmeticSequence(
+      array[0],
+      array[1] - array[0],
+      array.length
+    );
+  }
+
+  getNth(n: number) {
+    if (n + 1 > this.length) {
+      throw new RangeError(
+        `N value ${n} is greater than the length of the sequence ${this.length}`
+      );
+    }
+
+    return this.first + this.diff * n;
+  }
+
+  getSum(limit = this.length) {
+    return ((this.first + this.last) * limit) / 2;
+  }
+}
