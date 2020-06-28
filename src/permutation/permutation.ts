@@ -1,5 +1,5 @@
-export const factorial = (n: number) =>
-  Array.from({ length: n }, (_, i) => n - i).reduce((p, c) => p * c, 1);
+import { factorial } from '../integer';
 
-export const permutation = (n: number, r: number) =>
-  factorial(n) / factorial(n - r);
+export const permutation = (n: number, r: number) => {
+  return factorial(n) / factorial(n - r);
+}
