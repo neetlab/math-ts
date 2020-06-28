@@ -1,3 +1,3 @@
-export * from './interfaces';
+export * from './_interfaces';
 export * from './sequence';
 export * from './vector';

@@ -1,6 +1,8 @@
 import { Sequence } from "./sequence";
+import { Eq } from "../_interfaces";
 
-export class ArithmeticSequence extends Sequence {
+export class ArithmeticSequence extends Sequence
+  implements Eq<ArithmeticSequence> {
   constructor(
     readonly first: number,
     readonly diff: number,
@@ -17,6 +19,14 @@ export class ArithmeticSequence extends Sequence {
       array[0],
       array[1] - array[0],
       array.length
+    );
+  }
+
+  equals(that: ArithmeticSequence) {
+    return (
+      this.first === that.first &&
+      this.diff === that.diff &&
+      this.length === that.length
     );
   }
 

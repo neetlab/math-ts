@@ -1,6 +1,8 @@
 import { Sequence } from "./sequence";
+import { Eq } from "../_interfaces";
 
-export class GeometricSequence extends Sequence {
+export class GeometricSequence extends Sequence
+  implements Eq<GeometricSequence> {
   constructor(
     readonly first: number,
     readonly ratio: number,
@@ -17,6 +19,14 @@ export class GeometricSequence extends Sequence {
       array[0],
       array[1] / array[0],
       array.length
+    );
+  }
+
+  equals(that: GeometricSequence) {
+    return (
+      this.first === that.first &&
+      this.ratio === that.ratio &&
+      this.length === that.length
     );
   }
 
