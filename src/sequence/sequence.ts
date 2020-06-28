@@ -13,6 +13,10 @@ export abstract class Sequence {
     return Array.from({ length: this.length }, (_, i) => this.getNth(i));
   }
 
+  toString() {
+    return `{ ${this.toArray().join(', ')} }`;
+  }
+
   [Symbol.iterator]() {
     const self = this;
     let i = 0;

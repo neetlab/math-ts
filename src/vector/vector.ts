@@ -26,4 +26,8 @@ export class Vector implements Sum<Vector>, Eq<Vector> {
   getAngle(that: Vector) {
     return Math.acos((this.dotProd(that) / this.norm) * that.norm);
   }
+
+  toString() {
+    return `(${this.x}, ${this.y}, ${this.z})`;
+  }
 }
