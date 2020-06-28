@@ -1,7 +1,7 @@
-import { Eq } from '../interfaces';
+import { Eq } from '../_interfaces';
 
 expect.extend({
-  toEq(received: Eq<unknown>, expected: Eq<unknown>) {
+  toEq<T extends Eq<unknown>>(received: T, expected: T) {
     const pass = received.equals(expected);
 
     return {
