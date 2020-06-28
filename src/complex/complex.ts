@@ -21,4 +21,8 @@ export class Complex implements Eq<Complex>, Sum<Complex>, Prod<Complex> {
       this.real * that.imagine + this.imagine * that.real
     );
   }
+
+  toString() {
+    return `${this.real} + ${this.imagine}i`;
+  }
 }
