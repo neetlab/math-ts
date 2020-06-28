@@ -1,6 +1,6 @@
 # math-ts
 
-TypeScript implementation for mathematics concepts
+TypeScript implementation for mathematical concepts
 
 ## Implemented
 - Combination
