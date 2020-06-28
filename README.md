@@ -10,3 +10,11 @@ TypeScript implementation for mathematics concepts
 - Sequence
 - Set
 - Vector
+
+## Prove theorems
+```
+yarn run test
+```
+
+## License
+MIT
