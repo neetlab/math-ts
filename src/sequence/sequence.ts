@@ -1,5 +1,8 @@
 export abstract class Sequence {
-  abstract length: number;
+  abstract readonly first: number;
+  abstract readonly length: number;
+
+  abstract getSum(n: number): number;
   abstract getNth(n: number): number;
 
   get last() {
@@ -11,12 +14,13 @@ export abstract class Sequence {
   }
 
   [Symbol.iterator]() {
+    const self = this;
     let i = 0;
 
     return {
       next() {
-        const value = this.getNth(i);
-        const done = i + 1 >= this.length;
+        const value = self.getNth(i);
+        const done = i + 1 >= self.length;
         i++;
         return { value, done };
       },

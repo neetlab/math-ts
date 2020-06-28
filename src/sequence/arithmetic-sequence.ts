@@ -1,7 +1,6 @@
-import { ISequence } from "./isequence";
 import { Sequence } from "./sequence";
 
-export class ArithmeticSequence extends Sequence implements ISequence {
+export class ArithmeticSequence extends Sequence {
   constructor(
     readonly first: number,
     readonly diff: number,
@@ -31,7 +30,11 @@ export class ArithmeticSequence extends Sequence implements ISequence {
     return this.first + this.diff * n;
   }
 
-  getSum(limit = this.length) {
-    return ((this.first + this.last) * limit) / 2;
+  getSum(since = 0, until = this.length - 1) {
+    const first = this.getNth(since);
+    const last = this.getNth(until);
+    const length = until + 1;
+
+    return ((first + last) * length) / 2;
   }
 }

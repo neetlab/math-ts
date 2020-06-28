@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es5",
     "module": "commonjs",
-    "outDir": "./",
+    "outDir": "./dist",
     "baseUrl": "./",
     "lib": ["es2019", "dom", "esnext.asynciterable"],
     "declaration": true,
@@ -19,5 +19,5 @@
     "skipLibCheck": true,
     "strict": true
   },
-  "include": ["./**/*"],
+  "include": ["./src/**/*"],
 }

@@ -1,7 +1,6 @@
-import { ISequence } from "./isequence";
 import { Sequence } from "./sequence";
 
-export class GeometricSequence extends Sequence implements ISequence {
+export class GeometricSequence extends Sequence {
   constructor(
     readonly first: number,
     readonly ratio: number,

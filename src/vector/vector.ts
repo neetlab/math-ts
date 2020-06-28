@@ -1,15 +1,29 @@
-export class Vector {
+import { Sum, Eq } from "../interfaces";
+
+export class Vector implements Sum<Vector>, Eq<Vector> {
   constructor(readonly x: number, readonly y: number, readonly z: number) {}
 
-  getNorm() {
+  get norm() {
     return Math.sqrt(this.x ** 2 + this.y ** 2 + this.z ** 2);
   }
+
+  add(that: Vector) {
+    return new Vector(this.x + that.x, this.y + that.y, this.z + that.z);
+  }
+
+  multiply(k: number) {
+    return new Vector(this.x * k, this.y * k, this.z * k);
+  }
+
+  equals(that: Vector) {
+    return this.x === that.x && this.y === that.y && this.z === that.z;
+  }
+
+  dotProd(that: Vector) {
+    return this.x * that.x + this.y * that.y + this.z * that.z;
+  }
+
+  getAngle(that: Vector) {
+    return Math.acos((this.dotProd(that) / this.norm) * that.norm);
+  }
 }
-
-export const add = (v1: Vector, v2: Vector) => {
-  return new Vector(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);
-};
-
-export const dotProd = (v1: Vector, v2: Vector) => {
-  return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
-};

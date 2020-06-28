@@ -5,11 +5,14 @@
   "repository": "https://github.com/neetbox/math-ts.git",
   "author": "Ryō Igarashi <n33t5hin@gmail.com>",
   "license": "MIT",
-  "dependencies": {
-    "jest": "^26.1.0",
-    "typescript": "^3.9.5"
+  "scripts": {
+    "build": "tsc",
+    "test": "jest --config=jest.config.js",
+    "start": "node -i -e 'var $ = require(\"./dist\")'"
   },
   "devDependencies": {
+    "jest": "^26.1.0",
+    "typescript": "^3.9.5",
     "@types/jest": "^26.0.3",
     "ts-jest": "^26.1.1"
   }
