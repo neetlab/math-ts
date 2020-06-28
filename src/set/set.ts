@@ -14,3 +14,7 @@ export const getIntersection = <T>(a: Set<T>, b: Set<T>) => {
   return new Set([...a.values()].filter(value => b.has(value)));
 }
 
+export const getComplement = <T>(a: Set<T>, b: Set<T>) => {
+  const [universalSet, subset] = isSuperset(a, b) ? [a, b] : [b, a];
+  return new Set([...universalSet.values()].filter(value => !subset.has(value)));
+}
