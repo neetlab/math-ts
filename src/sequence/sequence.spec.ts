@@ -3,7 +3,7 @@ import {
   GeometricSequence as GSeq,
   DifferenceSequence as DSeq,
 } from ".";
-import { sigma } from "./sigma";
+import { sigma } from "../sigma";
 
 describe("sequence proof", () => {
   test("a_1 = S_1", () => {
