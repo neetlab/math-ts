@@ -1,6 +1,6 @@
-import { Sum, Eq } from "../_interfaces";
+import { Sum, Eq, Show } from "../_interfaces";
 
-export class Vector implements Sum<Vector>, Eq<Vector> {
+export class Vector implements Sum<Vector>, Eq<Vector>, Show {
   constructor(readonly x: number, readonly y: number, readonly z: number) {}
 
   get norm() {

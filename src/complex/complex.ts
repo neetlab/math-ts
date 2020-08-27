@@ -1,6 +1,6 @@
-import { Eq, Sum, Prod } from "../_interfaces";
+import { Eq, Sum, Prod, Show } from "../_interfaces";
 
-export class Complex implements Eq<Complex>, Sum<Complex>, Prod<Complex> {
+export class Complex implements Eq<Complex>, Sum<Complex>, Prod<Complex>, Show {
   constructor(readonly real: number, readonly imagine: number) {}
 
   equals(that: Complex) {

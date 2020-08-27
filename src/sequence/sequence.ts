@@ -1,9 +1,11 @@
-export abstract class Sequence {
+import { Show, Eq } from "../_interfaces";
+
+export abstract class Sequence implements Iterable<number>, Show, Eq<Sequence> {
   abstract readonly first: number;
   abstract readonly length: number;
 
-  abstract getSum(n: number): number;
   abstract getNth(n: number): number;
+  abstract equals(that: Sequence): boolean;
 
   get last() {
     return this.getNth(this.length - 1);
@@ -17,23 +19,13 @@ export abstract class Sequence {
     return `{ ${this.toArray().join(', ')} }`;
   }
 
-  [Symbol.iterator]() {
-    const self = this;
+  *[Symbol.iterator]() {
     let i = 0;
 
-    return {
-      next() {
-        const value = self.getNth(i);
-        const done = i + 1 >= self.length;
-        i++;
-        return { value, done };
-      },
-      return(value: number) {
-        return { value, done: true };
-      },
-      throw(error: Error) {
-        throw error;
-      },
-    };
+    while (i < this.length) {
+      const value = this.getNth(i);
+      yield value;
+      i++;
+    }
   }
 }

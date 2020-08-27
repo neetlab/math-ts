@@ -1,8 +1,6 @@
 import { Sequence } from "./sequence";
-import { Eq } from "../_interfaces";
 
-export class GeometricSequence extends Sequence
-  implements Eq<GeometricSequence> {
+export class GeometricSequence extends Sequence {
   constructor(
     readonly first: number,
     readonly ratio: number,

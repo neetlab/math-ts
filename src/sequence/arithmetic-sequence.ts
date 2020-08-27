@@ -1,8 +1,6 @@
 import { Sequence } from "./sequence";
-import { Eq } from "../_interfaces";
 
-export class ArithmeticSequence extends Sequence
-  implements Eq<ArithmeticSequence> {
+export class ArithmeticSequence extends Sequence {
   constructor(
     readonly first: number,
     readonly diff: number,
