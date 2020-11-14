@@ -3,11 +3,11 @@
 TypeScript implementation for mathematical concepts
 
 ## Implemented
-- Combination
+- Equation
 - Complex number
 - Integer
-- Permutation
-- Sequence
+- Probability (permutation, combination)
+- Sequence / sigma
 - Set
 - Vector
 
