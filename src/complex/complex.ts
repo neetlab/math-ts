@@ -22,6 +22,18 @@ export class Complex implements Eq<Complex>, Sum<Complex>, Prod<Complex>, Show {
     );
   }
 
+  getConjugate() {
+    return new Complex(this.real, this.imagine * -1);
+  }
+
+  toInteger() {
+    if (this.imagine !== 0) {
+      throw new Error(`${this.toString()} is not a real number`)
+    };
+
+    return this.real;
+  }
+
   toString() {
     return `${this.real} + ${this.imagine}i`;
   }
