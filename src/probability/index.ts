@@ -1,7 +1,7 @@
 import * as Permutation from './permutation';
 import * as Combination from './combination';
 
-export const Possibility = {
+export const Probability = {
   ...Permutation,
   ...Combination,
 }
