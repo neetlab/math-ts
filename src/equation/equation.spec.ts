@@ -5,7 +5,7 @@ import { Variable, Constant } from './item';
 // 2x + 3y + 2 = 4
 
 describe('Equation', () => {
-  it('returns true if the solution is correct', () => {
+  it('2x - 3 = 0 ==> x = 1.5', () => {
     const equation = new Equation(
       [
         new Variable(Symbol.for('x'), 2),
@@ -22,17 +22,17 @@ describe('Equation', () => {
     ]))).toBe(false);
   });
 
-  it('works with quadratic equation',() => {
+  it('x^2 + x - 6 = 0 ==> x = 2, -3',() => {
     const equation = new Equation(
       [
-        new Variable(Symbol.for('x'), 3, 2),
-        new Variable(Symbol.for('y'), 5),
-        new Constant(1),
+        new Variable(Symbol.for('x'), 1, 2),
+        new Variable(Symbol.for('x'), 1),
+        new Constant(-6),
       ],
     );
 
-    const posSolution = (-5 + Math.sqrt(13)) / 6
-    const negSolution = (-5 - Math.sqrt(13)) / 6
+    const posSolution = 2
+    const negSolution = -3
 
     expect(equation.test(new Map([[Symbol.for('x'), posSolution]]))).toBe(true);
     expect(equation.test(new Map([[Symbol.for('x'), negSolution]]))).toBe(true);

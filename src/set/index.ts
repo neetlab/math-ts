@@ -1,1 +1,1 @@
-export * from './set';
+export * as Set from './set';
