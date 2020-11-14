@@ -2,7 +2,8 @@
 
 TypeScript implementation for mathematical concepts
 
-## Implemented
+## Features
+### Implemented
 - Equation
 - Complex number
 - Integer
@@ -10,6 +11,14 @@ TypeScript implementation for mathematical concepts
 - Sequence / sigma
 - Set
 - Vector
+
+### Todo
+- Identity
+- Function
+- Calculus
+- Line, circle equations
+- Matrix
+- Position vector
 
 ## Prove theorems
 ```
@@ -35,14 +44,14 @@ a.multiply(b).toInteger() === 5;
 
 ```ts
 // x^2 + x - 6 = 0
-const Px = new Equation([
+const p = new Equation([
   new Variable('x', 1, 2),
   new Variable('x', 1),
   new Constant(-6)
 ]);
 
-equation.test(new Map([['x', 2]]) === true;
-equation.test(new Map([['x', -3]]) === true;
+p.test(new Map([['x', 2]]) === true;
+p.test(new Map([['x', -3]]) === true;
 ```
 
 ### `Integer`
