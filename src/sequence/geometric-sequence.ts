@@ -44,7 +44,7 @@ export class GeometricSequence extends Sequence {
     }
 
     return (
-      (this.first * (this.ratio ** limit - 1)) /
+      (this.first * (this.ratio ** limit)) /
       //-------------------------------
       (this.ratio - 1)
     );
