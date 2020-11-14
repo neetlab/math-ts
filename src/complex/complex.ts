@@ -35,6 +35,6 @@ export class Complex implements Eq<Complex>, Sum<Complex>, Prod<Complex>, Show {
   }
 
   toString() {
-    return `${this.real} + ${this.imagine}i`;
+    return `\$${this.real} + ${this.imagine}i\$`;
   }
 }

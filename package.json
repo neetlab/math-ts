@@ -8,7 +8,7 @@
   "scripts": {
     "build": "tsc",
     "test": "jest --config=jest.config.js",
-    "start": "node -i -e 'var $ = require(\"./dist\")'"
+    "start": "./dist/repl.js"
   },
   "devDependencies": {
     "jest": "^26.1.0",
