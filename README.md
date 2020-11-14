@@ -27,7 +27,7 @@ yarn run test
 
 ## API
 
-### `Complex`
+### Complex
 
 ```ts
 const a = new Complex(2, 1);
@@ -40,7 +40,7 @@ a.add(b).toInteger() === 4;
 a.multiply(b).toInteger() === 5;
 ```
 
-### `Equation`
+### Equation
 
 ```ts
 // x^2 + x - 6 = 0
@@ -54,14 +54,14 @@ p.test(new Map([['x', 2]]) === true;
 p.test(new Map([['x', -3]]) === true;
 ```
 
-### `Integer`
+### Integer
 
 ```ts
 factorial(3) === 6;
 gcd(36, 8) === 4;
 ```
 
-### `Probability`
+### Probability
 
 ```ts
 permute([1, 2, 3], 2) // [1,2] [1,3] [2,1] [2,3]..
@@ -70,7 +70,7 @@ nPr(3,2) === 6
 nCr(3,2) === 3
 ```
 
-### `Sequence`
+### Sequence
 
 ```ts
 // a = 1, d = 2, n = 10
@@ -84,18 +84,18 @@ s2.getNth(4) === 16;
 s2.getSum()  === 1024;
 ```
 
-### `Set`
+### Set
 
 ```ts
-const S = new Set([1,2,3])
-const T = new Set([1,2])
+const s = new Set([1,2,3])
+const t = new Set([1,2])
 
-isSuperset(S, U) === true;
-isSubset(U, S)   === true;
+isSuperset(s, t) === true;
+isSubset(t, s)   === true;
 
-getUnion(S, T).equals(S);
-getIntersection(S, T).equals(T);
-getComplement(S, T) // {3}
+getUnion(s, t).equals(s);
+getIntersection(s, t).equals(t);
+getComplement(s, t) // {3}
 ```
 
 ### Vector
