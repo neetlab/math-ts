@@ -20,6 +20,12 @@ TypeScript implementation for mathematical concepts
 - Matrix
 - Position vector
 
+### REPL
+MathTS contains enhanced Node.js REPL that is able to render LaTeX expressions by using ANSI escape sequence
+
+![Screenshot](https://user-images.githubusercontent.com/19276905/99181743-da2c7100-2773-11eb-9c11-8f915f54bea3.png)
+
+
 ## Prove theorems
 ```
 yarn run test
