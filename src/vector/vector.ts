@@ -28,6 +28,6 @@ export class Vector implements Sum<Vector>, Eq<Vector>, Show {
   }
 
   toString() {
-    return `(${this.x}, ${this.y}, ${this.z})`;
+    return `\$(${this.x}, ${this.y}, ${this.z})\$`;
   }
 }

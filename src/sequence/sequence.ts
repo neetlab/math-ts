@@ -16,7 +16,7 @@ export abstract class Sequence implements Iterable<number>, Show, Eq<Sequence> {
   }
 
   toString() {
-    return `{ ${this.toArray().join(', ')} }`;
+    return `\${ ${this.toArray().join(', ')} }\$`;
   }
 
   *[Symbol.iterator]() {
