@@ -15,7 +15,7 @@ const isTex = (data: unknown) => {
   return false;
 }
 
-const formatTex = (content: string, outfile: string) => {
+const formatTex = (content: unknown, outfile: string) => {
   return `\\documentclass[convert={ghostscript,outfile=${outfile}}]{standalone}
 \\usepackage{xcolor}
 \\begin{document}
@@ -25,13 +25,13 @@ ${content}
 \\end{document}`;
 }
 
-const makeTex = (content: string) => {
+const makeTex = (content: unknown) => {
   const name = Date.now().toString();
   const tmp = os.tmpdir();
   const src = path.join(tmp, name + '.tex');
   const png = path.join(tmp, name + '.png');
   writeFileSync(src, formatTex(content, png), 'utf-8');
-  execSync(`cd ${tmp} && pdflatex -shell-escape ${src}`, { maxBuffer: Infinity });
+  execSync(`cd ${tmp} && pdflatex -shell-escape ${src} > /dev/null`, { maxBuffer: Infinity });
   return png;
 }
 
@@ -39,7 +39,30 @@ const printEscapeImage = (path: string) => {
   return `\u001B]1337;File=inline=1:` + readFileSync(path, 'base64') + '\u0007';
 }
 
+const isTexArray = (array: unknown[]): boolean => {
+  return array.every((item): boolean => {
+    if (Array.isArray(item)) return isTexArray(item);
+    if (isTex(item)) return true;
+    return false;
+  });
+}
+
+const compileTexArray = (array: unknown[]): string => {
+  const inner = array
+    .map((item) => {
+      if (Array.isArray(item)) return compileTexArray(item);
+      return item;
+    })
+    .join(',');
+  
+  return '\\{' + inner + '\\}';
+}
+
 function texWriter(this: REPLServer, output: string) {
+  if (Array.isArray(output) && isTexArray(output)) {
+    return printEscapeImage(makeTex('$' + compileTexArray(output) + '$'));
+  }
+
   if (isTex(output)) {
     return printEscapeImage(makeTex(output));
   }
@@ -48,7 +71,6 @@ function texWriter(this: REPLServer, output: string) {
 }
 
 const session = repl.start({
-  prompt: 'λ ',
   writer: texWriter,
 });
 
