@@ -2,6 +2,7 @@ import { Show } from "../_interfaces";
 
 export interface Item extends Show {
   name: symbol | string;
+  isNegativeFactor(): boolean;
 }
 
 export const CONSTANT = Symbol();
@@ -15,6 +16,10 @@ export class Constant implements Item {
 
   evaluate() {
     return this.value;
+  }
+
+  isNegativeFactor() {
+    return this.value < 0;
   }
 
   toString() {
@@ -31,6 +36,10 @@ export class Variable implements Item {
 
   substitute(value: number) {
     return new Constant(this.factor * value ** this.exponent);
+  }
+
+  isNegativeFactor() {
+    return this.factor < 0;
   }
 
   toString() {

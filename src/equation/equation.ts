@@ -28,9 +28,12 @@ export class Equation implements Show {
 
   toString() {
     const equation = this.items
-      .map((item) => item.toString().match(/\$(.+?)\$/)![1])
-      .join('+');
-    
-    return '$$' + equation + '$$';
+      .map((item, i) => {
+        const operator = (i === 0 || item.isNegativeFactor()) ? '' : '+';
+        const expr = item.toString().match(/\$(.+?)\$/)![1];
+        return operator + expr;
+      })
+      .join('');
+    return '$' + equation + '=0$';
   }
 }

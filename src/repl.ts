@@ -21,7 +21,6 @@ const formatTex = (content: string, outfile: string) => {
 \\begin{document}
 \\pagecolor{black}
 \\color{white}
-\\scriptsize
 ${content}
 \\end{document}`;
 }
