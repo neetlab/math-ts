@@ -2,7 +2,7 @@ import { range } from "./integer";
 import { Probability } from "./probability";
 
 export const pascalsTriangleStr = (a: number) => (b: number) => (n: number) => range(0, n+1)
-  .map((r) => `{}_${n}C_{${r}}${a}^{${n-r}}${b}^${r}`)
+  .map((r) => `\${}_${n}C_{${r}}${a}^{${n-r}}${b}^${r}\$`)
   .join(' + ');
 
 export const pascalsTriangle = (a: number) => (b: number) => (n: number) => range(0, n+1)

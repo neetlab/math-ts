@@ -6,7 +6,7 @@ import { readFileSync, writeFileSync } from 'fs';
 import { execSync } from 'child_process';
 import * as math from './index';
 
-const TEX_PATTERN = /\$(.+?)\$/;
+const TEX_PATTERN = /^\$(.+?)\$$/;
 
 const isTex = (data: unknown) => {
   if (typeof data === 'number') return true;
@@ -16,16 +16,14 @@ const isTex = (data: unknown) => {
 }
 
 const formatTex = (content: string, outfile: string) => {
-  return `
-    \\documentclass[convert={ghostscript,outfile=${outfile}}]{standalone}
-    \\usepackage{xcolor}
-    \\begin{document}
-    \\pagecolor{black}
-    \\color{white}
-    \\scriptsize
-    \$${content}\$
-    \\end{document}
-  `;
+  return `\\documentclass[convert={ghostscript,outfile=${outfile}}]{standalone}
+\\usepackage{xcolor}
+\\begin{document}
+\\pagecolor{black}
+\\color{white}
+\\scriptsize
+${content}
+\\end{document}`;
 }
 
 const makeTex = (content: string) => {
@@ -34,7 +32,7 @@ const makeTex = (content: string) => {
   const src = path.join(tmp, name + '.tex');
   const png = path.join(tmp, name + '.png');
   writeFileSync(src, formatTex(content, png), 'utf-8');
-  execSync(`cd ${tmp} && pdflatex -shell-escape ${src} > /dev/null`);
+  execSync(`cd ${tmp} && pdflatex -shell-escape ${src}`, { maxBuffer: Infinity });
   return png;
 }
 

@@ -1,23 +1,12 @@
-export interface Item<T extends symbol> {
-  name: T;
-  evaluate(value: number): number;
-}
+import { Show } from "../_interfaces";
 
-export class Variable<T extends symbol> implements Item<T> {
-  constructor(
-    readonly name: T,
-    readonly factor: number = 1,
-    readonly exponent: number = 1
-  ) {}
-
-  evaluate(value: number) {
-    return this.factor * value ** this.exponent;
-  }
+export interface Item extends Show {
+  name: symbol | string;
 }
 
 export const CONSTANT = Symbol();
 
-export class Constant implements Item<symbol> {
+export class Constant implements Item {
   readonly name = CONSTANT;
 
   constructor (
@@ -27,4 +16,30 @@ export class Constant implements Item<symbol> {
   evaluate() {
     return this.value;
   }
+
+  toString() {
+    return `\$${this.value}\$`;
+  }
 }
+
+export class Variable implements Item {
+  constructor(
+    readonly name: symbol | string,
+    readonly factor: number,
+    readonly exponent: number,
+  ) {}
+
+  substitute(value: number) {
+    return new Constant(this.factor * value ** this.exponent);
+  }
+
+  toString() {
+    let str = '$';
+    if (this.factor > 1) str += this.factor
+    str += this.name.toString();
+    if (this.exponent !== 1) str += `^${this.exponent}`;
+    str += '$';
+    return str;
+  }
+}
+

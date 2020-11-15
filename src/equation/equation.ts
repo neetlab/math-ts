@@ -1,36 +1,36 @@
-import { Constant, Item } from './item';
+import { Show } from '../_interfaces';
+import { Constant, Item, Variable } from './item';
 
-export type Solution<T extends symbol> = ReadonlyMap<T, number>;
+export type Solution = ReadonlyMap<string | symbol, number>;
 
-export class Equation<T extends symbol> {
+export class Equation implements Show {
   constructor(
-    readonly items: Item<T>[],
+    readonly items: Item[],
   ) {}
 
-  test(values: Solution<T>) {
-    return this.getLeft(values) === 0;
+  test(solution: Solution) {
+    return this.substitute(solution) === 0;
   }
 
-  solve(
-    solutionGenerator: (name: T) => number = Math.random,
-  ) {
-    while (true) {
-      const map = new Map(
-        this.items.map((item) => [item.name, solutionGenerator(item.name) ]),
-      );
-
-      if (this.test(map)) return map;
-    }
-  }
-
-  private getLeft(values: Solution<T>) {
+  private substitute(solution: Solution) {
     return [...this.items.values()]
       .map((item) => {
         if (item instanceof Constant) return item.evaluate();
-        const value = values.get(item.name)
-        if (value == null) throw new TypeError();
-        return item.evaluate(value);
+        if (item instanceof Variable) {
+          const value = solution.get(item.name)
+          if (value == null) throw new TypeError();
+          return item.substitute(value).evaluate();
+        }
+        throw new TypeError();
       })
       .reduce((x, y) => x + y, 0);
+  }
+
+  toString() {
+    const equation = this.items
+      .map((item) => item.toString().match(/\$(.+?)\$/)![1])
+      .join('+');
+    
+    return '$$' + equation + '$$';
   }
 }

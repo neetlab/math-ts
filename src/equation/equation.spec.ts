@@ -8,25 +8,25 @@ describe('Equation', () => {
   it('2x - 3 = 0 ==> x = 1.5', () => {
     const equation = new Equation(
       [
-        new Variable(Symbol.for('x'), 2),
+        new Variable('x', 2, 1),
         new Constant(-3)
       ],
     );
 
     expect(equation.test(new Map([
-      [Symbol.for('x'), 1.5],
+      ['x', 1.5],
     ]))).toBe(true);
 
     expect(equation.test(new Map([
-      [Symbol.for('x'), 100],
+      ['x', 100],
     ]))).toBe(false);
   });
 
   it('x^2 + x - 6 = 0 ==> x = 2, -3',() => {
     const equation = new Equation(
       [
-        new Variable(Symbol.for('x'), 1, 2),
-        new Variable(Symbol.for('x'), 1),
+        new Variable('x', 1, 2),
+        new Variable('x', 1, 1),
         new Constant(-6),
       ],
     );
@@ -34,7 +34,7 @@ describe('Equation', () => {
     const posSolution = 2
     const negSolution = -3
 
-    expect(equation.test(new Map([[Symbol.for('x'), posSolution]]))).toBe(true);
-    expect(equation.test(new Map([[Symbol.for('x'), negSolution]]))).toBe(true);
+    expect(equation.test(new Map([['x', posSolution]]))).toBe(true);
+    expect(equation.test(new Map([['x', negSolution]]))).toBe(true);
   });
 })
