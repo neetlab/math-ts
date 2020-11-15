@@ -6,4 +6,3 @@ export * from "./sequence";
 export * from './equation';
 export * from "./set";
 export * from "./vector";
-export * from './pascals-triangle';
