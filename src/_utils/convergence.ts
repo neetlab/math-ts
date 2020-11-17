@@ -10,4 +10,6 @@ export const testConvergence = (sampleSpace: SampleSpace, event: Event, repeat =
   }
 
   console.log(`Expected ${event.probability} / Got ${trueCount / repeat}`);
+
+  return trueCount / repeat;
 }
