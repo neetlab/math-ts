@@ -10,15 +10,7 @@ export class Equation implements Tex {
   ) {}
 
   test(solution: Solution) {
-    const lhs_ = [...solution.entries()]
-      .reduce((expr, [name, value]) => expr.substitute(name, value), this.lhs)
-      .evaluate();
-
-    const rhs_ = [...solution.entries()]
-      .reduce((expr, [name, value]) => expr.substitute(name, value), this.rhs)
-      .evaluate();
-
-    return lhs_.equals(rhs_);
+    return this.lhs.substitute(solution).equals(this.rhs.substitute(solution))
   }
 
   toTexString() {

@@ -16,6 +16,6 @@ describe('Expression', () => {
       new Variable('x', 1, 1),
       new Constant(1),
     ]);
-    expect(expression.substitute('x', 1).evaluate().toNumber()).toBe(2);
+    expect(expression.substitute(new Map([['x', 1]])).toNumber()).toBe(2);
   });
 })
