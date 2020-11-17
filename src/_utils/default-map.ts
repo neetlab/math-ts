@@ -3,7 +3,7 @@ export class DefaultMap<K, V> implements Map<K, V> {
   readonly size: number;
   [Symbol.toStringTag]: string;
 
-  constructor (values: [K, V][], readonly defaultValue: V | (() => V)) {
+  constructor (values: [K, V][], readonly defaultValue: V | ((k: K) => V)) {
     this.map = new Map(values);
     this.size = this.map.size;
     this[Symbol.toStringTag] = this.map[Symbol.toStringTag];
@@ -54,6 +54,6 @@ export class DefaultMap<K, V> implements Map<K, V> {
 }
 
 export interface ReadonlyDefaultMap<K, V> extends ReadonlyMap<K, V> {
-  readonly defaultValue: V | ((k?: K) => V);
+  readonly defaultValue: V | ((k: K) => V);
   get(k: K): V;
 }

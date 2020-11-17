@@ -1,5 +1,5 @@
 import { Event } from "./event";
-import { Conditional, Exclusive } from "./relationship";
+import { Conditional, Exclusive, Relationship } from "./relationship";
 import { Binding } from './binding';
 import { nCr } from "./combination";
 import { DefaultMap, ReadonlyDefaultMap } from "../_utils";
@@ -9,32 +9,49 @@ interface ExperimentResponse {
   readonly sampleSpace: SampleSpace;
 }
 
-export class SampleSpace {
+interface ISampleSpace {
+  addEvent(event: Event): ISampleSpace;
+  relate(event: Event, callback: (binding: Binding) => Binding): ISampleSpace;
+  experiment(a: Event): ExperimentResponse;
+  getUnion(a: Event, b: Event): Event;
+  getIntersection(a: Event, b: Event): Event;
+  getComplement(a: Event): Event;
+  repeat(a: Event, n: number, r: number): Event;
+}
+
+export class SampleSpace implements ISampleSpace {
   constructor(
     private readonly events: ReadonlySet<Event> = new Set(),
-    private readonly bindings: ReadonlyDefaultMap<Event, Binding> =
-      new DefaultMap<Event, Binding>([], () => new Binding()),
-    private readonly happenings: ReadonlyDefaultMap<Event, number> =
-      new DefaultMap<Event, number>([], 0),
+    private readonly bindings: ReadonlyDefaultMap<Event, Binding>
+      = new DefaultMap<Event, Binding>([], (k: Event) => new Binding(k)),
+    private readonly happenings: ReadonlyDefaultMap<Event, number>
+      = new DefaultMap<Event, number>([], 0),
   ) {}
 
   addEvent(event: Event) {
     return new SampleSpace(
       new Set([...this.events.values(), event]),
-      this.bindings,
+      new DefaultMap([...this.bindings.entries(), [event, new Binding(event)]], this.bindings.defaultValue),
+      this.happenings,
     );
   }
 
   relate(event: Event, callback: (binding: Binding) => Binding) {
-    const relationships = callback(this.bindings.get(event));
+    const newBinding = callback(this.bindings.get(event));
+
+    const newBindings = [...this.bindings.entries()]
+      .map(([event, binding]) => [event, binding.sync(newBinding)] as [Event, Binding])
+      .concat([[event, newBinding] as [Event, Binding]])
 
     return new SampleSpace(
       this.events, 
-      new DefaultMap([
-        ...this.bindings,
-        [event, relationships],
-      ], this.bindings.defaultValue)
+      new DefaultMap(newBindings, this.bindings.defaultValue),
+      this.happenings,
     );
+  }
+
+  getRelationship(a: Event, b: Event): Relationship {
+    return this.bindings.get(a).relationships.get(b);
   }
 
   experiment(a: Event): ExperimentResponse {

@@ -1,6 +1,6 @@
 import { Event } from './event';
 
-enum RelationshipType {
+export enum RelationshipType {
   EXCLUSIVE,
   INDEPENDENT,
   CONDITIONAL,

@@ -29,9 +29,20 @@ describe('Event', () => {
       .addEvent(a)
       .addEvent(b)
       .relate(a, bind => bind.exclusiveTo(b))
-      .relate(b, bind => bind.exclusiveTo(a))
 
     const c = sampleSpace.getIntersection(a, b);
     expect(sampleSpace.experiment(c).result).toBe(false);
+  });
+
+  test('relationship synced', () => {
+    const a = new Event(0.1);
+    const b = new Event(0.1);
+
+    const sampleSpace = new SampleSpace()
+      .addEvent(a)
+      .addEvent(b)
+      .relate(a, binding => binding.exclusiveTo(b))
+    
+    expect(sampleSpace.getRelationship(a, b).type).toBe(sampleSpace.getRelationship(b, a).type);
   });
 })
