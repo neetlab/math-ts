@@ -51,7 +51,7 @@ describe('Event', () => {
     expect(s.getIntersection(a, b).probability).toBe(0);
   });
 
-  test('P_A(B) = 1/2 <=> P(A∩B)/P(A) = 1/2', () => {
+  test('P(A∩B) = P_A(B) * P(B)', () => {
     const a = new Event(1 / 5);
     const b = new Event(1 / 3);
 
@@ -62,4 +62,16 @@ describe('Event', () => {
 
     expect(s.getIntersection(a, b).probability / a.probability).toBe(1/2);
   });
+
+  test('P_A(B) = P(A∩B)/P(A)', () => {
+    const a = new Event(1 / 5);
+    const b = new Event(1 / 3);
+
+    const s = new SampleSpace([a, b])
+      .relate(a, bind => bind
+        .conditionalOn(b, new Event(1/2))
+      );
+
+    expect(s.getConditionalProbability(a, b).probability).toBe(s.getIntersection(a, b).divide(b).probability);
+  })
 })
