@@ -30,12 +30,10 @@ export class Binding {
         switch (relationship.type) {
           case RelationshipType.UNRELATED:
             return last.unrelatedTo(object);
-          // Exclusive and independent are bidirectional
           case RelationshipType.EXCLUSIVE:
             return last.exclusiveTo(object);
-          // Condition is unidirectional
           case RelationshipType.CONDITIONAL:
-            return last;
+            return last.conditionalOn(object, relationship.event);
         }
       }, this as Binding);
   }
