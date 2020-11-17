@@ -16,8 +16,8 @@ export class Variable implements Tex, Eq<Item> {
     return new Constant(this.factor * value ** this.exponent);
   }
 
-  isNegativeFactor() {
-    return this.factor < 0;
+  product(k: number) {
+    return new Variable(this.name, this.factor * k, this.exponent);
   }
 
   equals(that: Item) {
@@ -29,6 +29,8 @@ export class Variable implements Tex, Eq<Item> {
 
   toTexString() {
     let str = '';
+    if (this.factor < 0) str += this.factor
+    if (this.factor === 0) return str;
     if (this.factor > 1) str += this.factor
     str += this.name.toString();
     if (this.exponent !== 1) str += `^${this.exponent}`;

@@ -10,7 +10,7 @@ import { Tex } from '../_interfaces';
 type TexLike = Tex | number | BigInt;
 
 const hasToTexString = (data: any): data is Tex => {
-  return 'toTexString' in data;
+  return typeof data === 'object' && 'toTexString' in data;
 }
 
 const isTex = (data: unknown): data is TexLike => {

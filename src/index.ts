@@ -5,6 +5,7 @@ export * from './expression';
 export * from "./integer";
 export * from "./sequence";
 export * from './equation';
+export * from './identity';
 export * from "./set";
 export * from "./vector";
 export * from "./probability";

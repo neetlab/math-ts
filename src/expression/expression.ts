@@ -1,12 +1,12 @@
 import { immerable } from 'immer';
-import { Eq, Tex } from '../_interfaces';
+import { Eq, Tex, Sum } from '../_interfaces';
 import { Constant } from './constant';
 import { Variable } from './variable';
 
 export type Item = Variable | Constant;
 export type Values = ReadonlyMap<string | symbol, number>;
 
-export class Expression implements Tex, Eq<Expression> {
+export class Expression implements Tex, Eq<Expression>, Sum<Expression> {
   readonly [immerable] = true;
 
   constructor(
@@ -34,10 +34,22 @@ export class Expression implements Tex, Eq<Expression> {
     return new Expression([...variables, constant]);
   }
 
+  has(item: Item) {
+    return this.items.includes(item);
+  }
+
+  add(expr: Expression) {
+    return new Expression([...this.items, ...expr.items ]).evaluate();
+  }
+
   substitute(values: Values) {
     return [...values.entries()]
       .reduce((expr, [name, value]) => expr.substituteOne(name, value), this as Expression)
       .evaluate();
+  }
+
+  remove(item: Item) {
+    return new Expression(this.items.filter((v) => !v.equals(item)));
   }
 
   equals(that: Expression) {
