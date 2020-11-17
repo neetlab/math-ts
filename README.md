@@ -90,6 +90,7 @@ let a = new Event(1 / 10), // P(A) = 1/10
 
 let s = new SampleSpace([a, b, c])
   .relate(a, bind => bind.exclusiveTo(b));
+  .relate(a, bind => bind.independentFrom(c))
   .relate(b, bind => bind.conditionalOn(c, new Event(1/2)));
 
 // A and B are mutually exclusive <=> P(A∪B) = P(A) + P(B)
