@@ -112,6 +112,6 @@ export class SampleSpace implements ISampleSpace {
 
     return [...binding.relationships.entries()]
       .filter(([, relationship]) => relationship instanceof Exclusive)
-      .some(([b]) => (this.happenings.get(b) ?? 0) >= 1);
+      .some(([b]) => this.happenings.get(b) >= 1);
   }
 }
