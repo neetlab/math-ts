@@ -82,7 +82,7 @@ export class SampleSpace implements ISampleSpace {
     }
 
     if (relationship instanceof Independent) {
-      return requirement;
+      return event;
     }
 
     return this.getIntersection(requirement, event).divide(event);
