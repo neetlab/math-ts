@@ -89,15 +89,15 @@ let a = new Event(1 / 10), // P(A) = 1/10
     c = new Event(1 / 3);  // P(C) = 1/3
 
 let s = new SampleSpace([a, b, c])
-  .relate(a, bind => bind.exclusiveTo(c));
+  .relate(a, bind => bind.exclusiveTo(b));
   .relate(b, bind => bind.conditionalOn(c, new Event(1/2)));
 
 // Event A and B are mutually exclusive
 // <=> P(A∩B) = P(A) + P(B)
 s.getUnion(a, b).probability === 1/10 + 1/5
 
-// P_A(B) = 1/2 <=> P(A∩B)/P(A) = 1/2
-s.getIntersection(a, b).probability / a.probability === 1/2
+// P_B(C) = 1/2 <=> P(B∩C)/P(B) = 1/2
+s.getIntersection(b, c).probability / b.probability === 1/2
 
 // You can even simulate probability ;)
 s.experiment(a)
