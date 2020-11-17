@@ -1,8 +1,9 @@
 export * from "./_interfaces";
+export * from './_utils';
 export * from "./complex";
 export * from "./integer";
 export * from "./sequence";
 export * from './equation';
 export * from "./set";
 export * from "./vector";
-export * as Probability from "./probability";
+export * from "./probability";

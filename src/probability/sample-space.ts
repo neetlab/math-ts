@@ -15,7 +15,7 @@ interface ISampleSpace {
   getUnion(a: Event, b: Event): Event;
   getIntersection(a: Event, b: Event): Event;
   getComplement(a: Event): Event;
-  repeat(a: Event, n: number, r: number): Event;
+  independentRepeat(a: Event, n: number, r: number): Event;
 }
 
 export class SampleSpace implements ISampleSpace {
@@ -103,7 +103,7 @@ export class SampleSpace implements ISampleSpace {
   }
 
   // nCr*p^r*(1-p)^(n-r)
-  repeat(a: Event, n: number, r: number) {
+  independentRepeat(a: Event, n: number, r: number) {
     return new Event(nCr(n, r) * a.probability ** r * this.getComplement(a).probability ** (n-r));
   }
 

@@ -17,7 +17,7 @@ describe('Event', () => {
   test('nCr*p^r*(1-p)^(n-r)', () => {
     const p = new Event(0.5)
     const sampleSpace = new SampleSpace([p]);
-    const repeatedP = sampleSpace.repeat(p, 10, 5) 
+    const repeatedP = sampleSpace.independentRepeat(p, 10, 5) 
     expect(repeatedP.probability).toBe(0.24609375);
   });
 
