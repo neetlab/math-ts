@@ -77,28 +77,27 @@ nPr(3,2) === 6
 ### Combination 
 
 ```ts
-combine(new Set([1,2,3]), 2) // {1,2} {1,3} {2,3}
+combine(new Set([ 1,2,3 ]), 2) // {1,2} {1,3} {2,3}
 nCr(3,2) === 3
 ```
 
 ### Probability
 
 ```ts
-const a = new Event(1 / 10); // P(A) = 1/10
-const b = new Event(1 / 5);  // P(B) = 1/5
+let a = new Event(1 / 10), // P(A) = 1/10
+    b = new Event(1 / 5),  // P(B) = 1/5
+    c = new Event(1 / 3);  // P(C) = 1/3
 
-const s = new SampleSpace()
-  .addEvent(a)
-  .addEvent(b)
-  .bind(a, bind => bind.independentFrom(b));
+let s = new SampleSpace([a, b, c])
+  .relate(a, bind => bind.exclusiveTo(c));
+  .relate(b, bind => bind.conditionalOn(c, new Event(1/2)));
 
-// A and B are mutually exclusive
-// ==> P(A∩B) = P(A) + P(B)
+// Event A and B are mutually exclusive
+// <=> P(A∩B) = P(A) + P(B)
 s.getUnion(a, b).probability === 1/10 + 1/5
 
-// A and B are mutually independent
-// ==> P(A∩B) = 0
-s.getIntersection(a, b).probability === 0;
+// P_A(B) = 1/2 <=> P(A∩B)/P(A) = 1/2
+s.getIntersection(a, b).probability / a.probability === 1/2
 
 // You can even simulate probability ;)
 s.experiment(a)

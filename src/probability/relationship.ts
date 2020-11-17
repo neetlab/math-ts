@@ -1,9 +1,9 @@
 import { Event } from './event';
 
 export enum RelationshipType {
-  EXCLUSIVE,
-  INDEPENDENT,
-  CONDITIONAL,
+  EXCLUSIVE = 'exclusive',
+  INDEPENDENT = 'independent',
+  CONDITIONAL = 'conditional',
 };
 
 export class Exclusive {

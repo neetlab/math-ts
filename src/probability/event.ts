@@ -10,15 +10,19 @@ export class Event implements Sum<Event>, Prod<Event> {
   }
 
   add(that: Event) {
-    return new Event(Math.min(1, this.probability + that.probability));
+    return new Event(Math.max(0, Math.min(1, this.probability + that.probability)));
   }
 
   subtract(that: Event) {
-    return new Event(Math.min(1, this.probability - that.probability));
+    return new Event(Math.max(0, Math.min(1, this.probability - that.probability)));
   }
 
   multiply(that: Event) {
-    return new Event(Math.min(1, this.probability * that.probability));
+    return new Event(Math.max(0, Math.min(1, this.probability * that.probability)));
+  }
+
+  divide(that: Event) {
+    return new Event(Math.max(0, Math.min(1, this.probability / that.probability)));
   }
 
   isEmpty() {

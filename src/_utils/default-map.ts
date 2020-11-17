@@ -11,7 +11,7 @@ export class DefaultMap<K, V> implements Map<K, V> {
 
   get(key: K): V {
     // @ts-ignore
-    return this.map.get(key) ?? typeof this.defaultValue === 'function' ? this.defaultValue(key) : this.defaultValue;
+    return this.map.get(key) ?? (typeof this.defaultValue === 'function' ? this.defaultValue(key) : this.defaultValue);
   }
 
   set(key: K, value: V) {

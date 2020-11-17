@@ -10,7 +10,6 @@ interface ExperimentResponse {
 }
 
 interface ISampleSpace {
-  addEvent(event: Event): ISampleSpace;
   relate(event: Event, callback: (binding: Binding) => Binding): ISampleSpace;
   experiment(a: Event): ExperimentResponse;
   getUnion(a: Event, b: Event): Event;
@@ -20,20 +19,22 @@ interface ISampleSpace {
 }
 
 export class SampleSpace implements ISampleSpace {
+  private readonly bindings: ReadonlyDefaultMap<Event, Binding>;
+
   constructor(
-    private readonly events: ReadonlySet<Event> = new Set(),
-    private readonly bindings: ReadonlyDefaultMap<Event, Binding>
-      = new DefaultMap<Event, Binding>([], (k: Event) => new Binding(k)),
+    private readonly events: readonly Event[],
+    bindings?: ReadonlyDefaultMap<Event, Binding> ,
     private readonly happenings: ReadonlyDefaultMap<Event, number>
       = new DefaultMap<Event, number>([], 0),
-  ) {}
+  ) {
+    if (bindings == null) {
+      bindings = new DefaultMap<Event, Binding>(
+        events.map((event) => [event, new Binding(event)]),
+        (k: Event) => new Binding(k),
+      );
+    }
 
-  addEvent(event: Event) {
-    return new SampleSpace(
-      new Set([...this.events.values(), event]),
-      new DefaultMap([...this.bindings.entries(), [event, new Binding(event)]], this.bindings.defaultValue),
-      this.happenings,
-    );
+    this.bindings = bindings;
   }
 
   relate(event: Event, callback: (binding: Binding) => Binding) {
