@@ -1,15 +1,22 @@
-import { Show } from '../_interfaces';
-import { Item } from './item';
+import { Prod, Sum, Tex, Eq } from '../_interfaces';
+import { Item } from './expression';
 
 export const CONSTANT = Symbol();
 
-export class Constant implements Item, Show {
-  readonly _tag = 'constant';
+export class Constant implements Tex, Sum<Constant>, Prod<Constant>, Eq<Constant> {
   readonly name = CONSTANT;
 
   constructor (
-    readonly value: number,
+    private readonly value: number,
   ) {}
+
+  add(that: Constant) {
+    return new Constant(this.evaluate() + that.evaluate());
+  }
+
+  multiply(that: Constant) {
+    return new Constant(this.evaluate() * that.evaluate());
+  }
 
   evaluate() {
     return this.value;
@@ -19,7 +26,13 @@ export class Constant implements Item, Show {
     return this.value < 0;
   }
 
-  show() {
+  equals(that: Item) {
+    return that instanceof Constant
+     && this.name === that.name
+     && this.value === that.value;
+  }
+
+  toTexString() {
     return this.value.toString();
   }
 }
