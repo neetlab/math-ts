@@ -10,18 +10,18 @@ export class Equation implements Tex {
   ) {}
 
   test(solution: Solution) {
-    const rhs_ = [...solution.entries()]
-      .reduce((expr, [name, value]) => expr.substitute(name, value), this.rhs)
-      .evaluate();
-
     const lhs_ = [...solution.entries()]
       .reduce((expr, [name, value]) => expr.substitute(name, value), this.lhs)
       .evaluate();
 
-    return rhs_.equals(lhs_);
+    const rhs_ = [...solution.entries()]
+      .reduce((expr, [name, value]) => expr.substitute(name, value), this.rhs)
+      .evaluate();
+
+    return lhs_.equals(rhs_);
   }
 
   toTexString() {
-    return this.rhs.toTexString() + '=' + this.lhs.toTexString();
+    return this.lhs.toTexString() + '=' + this.rhs.toTexString();
   }
 }

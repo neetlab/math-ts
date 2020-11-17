@@ -1,6 +1,7 @@
 export * from "./_interfaces";
 export * from './_utils';
 export * from "./complex";
+export * from './expression';
 export * from "./integer";
 export * from "./sequence";
 export * from './equation';

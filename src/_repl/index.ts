@@ -32,7 +32,7 @@ const formatTex = (content: unknown, outfile: string) => {
 \\begin{document}
 \\pagecolor{black}
 \\color{white}
-${content}
+$${content}$
 \\end{document}`;
 }
 
