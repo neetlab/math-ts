@@ -14,6 +14,7 @@ TypeScript implementation for mathematical concepts
 
 ### Todo
 - Identity
+- Inequality
 - Function
 - Calculus
 - Line, circle equations
