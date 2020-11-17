@@ -1,2 +1,2 @@
 export * from './equation';
-export * from './item';
+export * from '../expression/variable';

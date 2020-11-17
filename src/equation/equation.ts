@@ -1,5 +1,5 @@
 import { Show } from '../_interfaces';
-import { Constant, Item, Variable } from './item';
+import { Constant, Item, Variable } from '../expression';
 
 export type Solution = ReadonlyMap<string | symbol, number>;
 

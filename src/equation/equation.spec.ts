@@ -1,5 +1,5 @@
 import { Equation } from './equation';
-import { Variable, Constant } from './item';
+import { Variable, Constant } from '../expression';
 
 // 2x + 1 = 5
 // 2x + 3y + 2 = 4

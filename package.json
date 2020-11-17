@@ -10,10 +10,15 @@
     "test": "jest --config=jest.config.js",
     "start": "./dist/repl.js"
   },
+  "dependencies": {
+    "fp-ts": "^2.8.6",
+    "monocle-ts": "^2.3.3",
+    "newtype-ts": "^0.3.4"
+  },
   "devDependencies": {
-    "jest": "^26.1.0",
-    "typescript": "^3.9.5",
     "@types/jest": "^26.0.3",
-    "ts-jest": "^26.1.1"
+    "jest": "^26.1.0",
+    "ts-jest": "^26.1.1",
+    "typescript": "^3.9.5"
   }
 }

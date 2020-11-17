@@ -1,31 +1,5 @@
-import { Show } from "../_interfaces";
-
-export interface Item extends Show {
-  name: symbol | string;
-  isNegativeFactor(): boolean;
-}
-
-export const CONSTANT = Symbol();
-
-export class Constant implements Item {
-  readonly name = CONSTANT;
-
-  constructor (
-    readonly value: number,
-  ) {}
-
-  evaluate() {
-    return this.value;
-  }
-
-  isNegativeFactor() {
-    return this.value < 0;
-  }
-
-  toString() {
-    return `\$${this.value}\$`;
-  }
-}
+import { Item } from "./item";
+import { Constant } from './constant';
 
 export class Variable implements Item {
   constructor(
