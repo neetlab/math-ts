@@ -98,8 +98,8 @@ s.getUnion(a, b).probability === 1/10 + 1/5
 // P_B(C) = 1/2 <=> P(B∩C)/P(B) = 1/2
 s.getIntersection(b, c).probability / b.probability === 1/2
 
-// You can even simulate probability ;)
-s.experiment(a)
+// You can invoke independent experiment w/ Math.random
+a.experiment();
 ```
 
 ### Sequence

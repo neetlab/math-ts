@@ -4,20 +4,18 @@ import { SampleSpace } from './sample-space';
 describe('Event', () => {
   it('returns always true when P(A) = 1', () => {
     const a = new Event(1);
-    const { result } = new SampleSpace([a]).experiment(a);
-    expect(result).toBe(true);
+    expect(a.experiment()).toBe(true);
   });
 
   it('returns always false when P(A) = 0', () => {
     const a = new Event(0);
-    const { result } = new SampleSpace([a]).experiment(a);
-    expect(result).toBe(false);
+    expect(a.experiment()).toBe(false);
   });
 
   test('nCr*p^r*(1-p)^(n-r)', () => {
     const p = new Event(0.5)
     const sampleSpace = new SampleSpace([p]);
-    const repeatedP = sampleSpace.independentRepeat(p, 10, 5) 
+    const repeatedP = sampleSpace.repeat(p, 10, 5) 
     expect(repeatedP.probability).toBe(0.24609375);
   });
 
@@ -31,7 +29,7 @@ describe('Event', () => {
     expect(s.getRelationship(a, b).type).toBe(s.getRelationship(b, a).type);
   });
 
-  test('A and B are mutually exclusive <=> P(A∩B) = P(A) + P(B)', () => {
+  test('A and B are mutually exclusive <=> P(A∪B) = P(A) + P(B)', () => {
     const a = new Event(1 / 10);
     const b = new Event(1 / 5);
 

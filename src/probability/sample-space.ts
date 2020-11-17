@@ -1,21 +1,15 @@
 import { Event } from "./event";
-import { Conditional, Exclusive, Relationship, Unrelated } from "./relationship";
+import { Conditional, Exclusive, Relationship, Independent } from "./relationship";
 import { Binding } from './binding';
 import { nCr } from "./combination";
 import { DefaultMap, ReadonlyDefaultMap } from "../_utils";
 
-interface ExperimentResponse {
-  readonly result: boolean;
-  readonly sampleSpace: SampleSpace;
-}
-
 interface ISampleSpace {
   relate(event: Event, callback: (binding: Binding) => Binding): ISampleSpace;
-  experiment(a: Event): ExperimentResponse;
+  repeat(a: Event, n: number, r: number): Event;
   getUnion(a: Event, b: Event): Event;
   getIntersection(a: Event, b: Event): Event;
   getComplement(a: Event): Event;
-  independentRepeat(a: Event, n: number, r: number): Event;
 }
 
 export class SampleSpace implements ISampleSpace {
@@ -51,30 +45,13 @@ export class SampleSpace implements ISampleSpace {
     );
   }
 
-  getRelationship(a: Event, b: Event): Relationship {
-    return this.bindings.get(a).relationships.get(b);
+  // nCr*p^r*(1-p)^(n-r)
+  repeat(a: Event, n: number, r: number) {
+    return new Event(nCr(n, r) * a.probability ** r * this.getComplement(a).probability ** (n-r));
   }
 
-  experiment(a: Event): ExperimentResponse {
-    if (this.hasExclusiveEventHappened(a)) {
-      return { result: false, sampleSpace: this };
-    }
-
-    const result = Math.random() <= a.probability;
-    if (!result) {
-      return { result, sampleSpace: this };
-    }
-
-    const sampleSpace = new SampleSpace(
-      this.events,
-      this.bindings,
-      new DefaultMap([
-        ...this.happenings,
-        [a, (this.happenings.get(a) ?? 0) + 1],
-      ], this.happenings.defaultValue),
-    );
-    
-    return { result, sampleSpace }
+  getRelationship(a: Event, b: Event): Relationship {
+    return this.bindings.get(a).relationships.get(b);
   }
 
   // P(A∪B) = A∪B - A∩B
@@ -104,7 +81,7 @@ export class SampleSpace implements ISampleSpace {
       return new Event(0);
     }
 
-    if (relationship instanceof Unrelated) {
+    if (relationship instanceof Independent) {
       return requirement;
     }
 
@@ -113,18 +90,5 @@ export class SampleSpace implements ISampleSpace {
 
   getComplement(a: Event) {
     return new Event(Math.max(0, 1 - a.probability));
-  }
-
-  // nCr*p^r*(1-p)^(n-r)
-  independentRepeat(a: Event, n: number, r: number) {
-    return new Event(nCr(n, r) * a.probability ** r * this.getComplement(a).probability ** (n-r));
-  }
-
-  private hasExclusiveEventHappened(a: Event) {
-    const binding = this.bindings.get(a);
-
-    return [...binding.relationships.entries()]
-      .filter(([, relationship]) => relationship instanceof Exclusive)
-      .some(([b]) => this.happenings.get(b) >= 1);
   }
 }
