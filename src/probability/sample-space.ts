@@ -1,17 +1,21 @@
 import { Event } from "./event";
-import { Conditional, Exclusive, Relationships } from "./relationship";
+import { Conditional, Exclusive } from "./relationship";
+import { Binding } from './binding';
 import { nCr } from "./combination";
+import { DefaultMap, ReadonlyDefaultMap } from "../_utils";
 
 interface ExperimentResponse {
-  result: boolean;
-  sampleSpace: SampleSpace;
+  readonly result: boolean;
+  readonly sampleSpace: SampleSpace;
 }
 
 export class SampleSpace {
   constructor(
     private readonly events: ReadonlySet<Event> = new Set(),
-    private readonly bindings: ReadonlyMap<Event, Relationships> = new Map(),
-    private readonly happenings: ReadonlyMap<Event, number> = new Map(),
+    private readonly bindings: ReadonlyDefaultMap<Event, Binding> =
+      new DefaultMap<Event, Binding>([], () => new Binding()),
+    private readonly happenings: ReadonlyDefaultMap<Event, number> =
+      new DefaultMap<Event, number>([], 0),
   ) {}
 
   addEvent(event: Event) {
@@ -21,15 +25,15 @@ export class SampleSpace {
     );
   }
 
-  relate(event: Event, callback: (relationships: Relationships) => Relationships) {
-    const relationships = callback(this.bindings.get(event) ?? new Relationships());
+  relate(event: Event, callback: (binding: Binding) => Binding) {
+    const relationships = callback(this.bindings.get(event));
 
     return new SampleSpace(
       this.events, 
-      new Map([
+      new DefaultMap([
         ...this.bindings,
         [event, relationships],
-      ])
+      ], this.bindings.defaultValue)
     );
   }
 
@@ -46,10 +50,10 @@ export class SampleSpace {
     const sampleSpace = new SampleSpace(
       this.events,
       this.bindings,
-      new Map([
+      new DefaultMap([
         ...this.happenings,
         [a, (this.happenings.get(a) ?? 0) + 1],
-      ]),
+      ], this.happenings.defaultValue),
     );
     
     return { result, sampleSpace }
@@ -62,13 +66,7 @@ export class SampleSpace {
   }
 
   getIntersection(a: Event, b: Event) {
-    const relationships = this.bindings.get(a);
-
-    if (relationships == null) {
-      throw new TypeError('Relationship for a is not registered');
-    }
-
-    const relationship = relationships.get(b);
+    const relationship = this.bindings.get(a).relationships.get(b);
 
     if (relationship instanceof Exclusive) {
       return new Event(0);
@@ -92,9 +90,9 @@ export class SampleSpace {
   }
 
   private hasExclusiveEventHappened(a: Event) {
-    const relationships = this.bindings.get(a) ?? new Relationships();
+    const binding = this.bindings.get(a);
 
-    return [...relationships.entries()]
+    return [...binding.relationships.entries()]
       .filter(([, relationship]) => relationship instanceof Exclusive)
       .some(([b]) => (this.happenings.get(b) ?? 0) >= 1);
   }
