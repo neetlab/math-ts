@@ -70,6 +70,6 @@ describe('Event', () => {
         .conditionalOn(b, new Event(1/2))
       );
 
-    expect(s.getConditionalProbability(a, b).probability).toBe(s.getIntersection(a, b).divide(b).probability);
+    expect(s.getConditionalEvent(a, b).probability).toBe(s.getIntersection(a, b).divide(a).probability);
   })
 })

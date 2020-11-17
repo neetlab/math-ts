@@ -71,10 +71,10 @@ export class SampleSpace implements ISampleSpace {
       return a.multiply(relationship.event);
     }
 
-    return this.getConditionalProbability(a, b).multiply(b);
+    return this.getConditionalEvent(a, b).multiply(b);
   }
 
-  getConditionalProbability(requirement: Event, event: Event): Event {
+  getConditionalEvent(requirement: Event, event: Event): Event {
     const relationship = this.bindings.get(requirement).relationships.get(event)
 
     if (relationship instanceof Exclusive) {
@@ -85,7 +85,7 @@ export class SampleSpace implements ISampleSpace {
       return event;
     }
 
-    return this.getIntersection(requirement, event).divide(event);
+    return this.getIntersection(requirement, event).divide(requirement);
   }
 
   getComplement(a: Event) {
