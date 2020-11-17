@@ -43,6 +43,10 @@ export class Identity implements Tex {
     );
   }
 
+  divide() {
+    throw 'unimplemented';
+  }
+
   toTexString() {
     return `${this.lhs.toTexString()}=${this.rhs.toTexString()}`;
   }

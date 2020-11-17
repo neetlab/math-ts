@@ -11,11 +11,11 @@ TypeScript implementation for mathematical concepts
 - Sequence / sigma
 - Set
 - Vector
+- Identity
+- Function
 
 ### Todo
-- Identity
 - Inequality
-- Function
 - Calculus
 - Line, circle equations
 - Matrix
@@ -34,6 +34,56 @@ yarn run test
 
 ## API
 
+### Equation
+
+```ts
+// x^2 + x - 6 = 0
+const p = new Equation([
+  new Expression([
+    new Variable('x', 1, 2),
+    new Variable('x', 1),
+    new Constant(-6)
+  ]),
+  new Expression([
+    new Constant(0),
+  ]),
+]);
+
+p.test(new Map([['x', 2]]) === true;
+p.test(new Map([['x', -3]]) === true;
+```
+
+### Identity
+
+```ts
+const v1 = new Variable('x', 1, 2);
+const v2 = new Variable('x', 1);
+const c1 = new Constant(-6);
+
+const id = Identity
+  .create()
+  .push(new Expression([ v1, v2, c1 ]))
+  .moveToRight(c1)
+  .moveToLeft(v2);
+```
+
+### Function
+
+```ts
+const f = new Function(new Expression([
+  new Variable('x', 1, 1),
+]));
+
+f.call(new Map([['x', 5]])).toNumber() === 5;
+```
+
+### Integer
+
+```ts
+factorial(3) === 6;
+gcd(36, 8) === 4;
+```
+
 ### Complex
 
 ```ts
@@ -45,27 +95,6 @@ a.toString() === '2 + 1i';
 a.equals(c) === true;
 a.add(b).toInteger() === 4;
 a.multiply(b).toInteger() === 5;
-```
-
-### Equation
-
-```ts
-// x^2 + x - 6 = 0
-const p = new Equation([
-  new Variable('x', 1, 2),
-  new Variable('x', 1),
-  new Constant(-6)
-]);
-
-p.test(new Map([['x', 2]]) === true;
-p.test(new Map([['x', -3]]) === true;
-```
-
-### Integer
-
-```ts
-factorial(3) === 6;
-gcd(36, 8) === 4;
 ```
 
 ### Permutation
