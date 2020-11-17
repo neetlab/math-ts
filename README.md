@@ -67,13 +67,41 @@ factorial(3) === 6;
 gcd(36, 8) === 4;
 ```
 
-### Probability
+### Permutation
 
 ```ts
 permute([1, 2, 3], 2) // [1,2] [1,3] [2,1] [2,3]..
-combine(new Set([1,2,3]), 2) // {1,2} {1,3} {2,3}
 nPr(3,2) === 6
+```
+
+### Combination 
+
+```ts
+combine(new Set([1,2,3]), 2) // {1,2} {1,3} {2,3}
 nCr(3,2) === 3
+```
+
+### Probability
+
+```ts
+const a = new Event(1 / 10); // P(A) = 1/10
+const b = new Event(1 / 5);  // P(B) = 1/5
+
+const s = new SampleSpace()
+  .addEvent(a)
+  .addEvent(b)
+  .bind(a, bind => bind.independentFrom(b));
+
+// A and B are mutually exclusive
+// ==> P(A∩B) = P(A) + P(B)
+s.getUnion(a, b).probability === 1/10 + 1/5
+
+// A and B are mutually independent
+// ==> P(A∩B) = 0
+s.getIntersection(a, b).probability === 0;
+
+// You can even simulate probability ;)
+s.experiment(a)
 ```
 
 ### Sequence
