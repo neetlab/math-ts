@@ -1,9 +1,9 @@
-import { Show } from '../_interfaces';
+import { Tex } from '../_interfaces';
 import { Expression } from '../expression';
 
 export type Solution = ReadonlyMap<string | symbol, number>;
 
-export class Equation implements Show {
+export class Equation implements Tex {
   constructor(
     readonly lhs: Expression,
     readonly rhs: Expression,
@@ -19,5 +19,9 @@ export class Equation implements Show {
       .evaluate();
 
     return rhs_.equals(lhs_);
+  }
+
+  toTexString() {
+    return this.rhs.toTexString() + '=' + this.lhs.toTexString();
   }
 }

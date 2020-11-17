@@ -51,6 +51,6 @@ export class GeometricSequence extends Sequence {
   }
 
   toString() {
-    return `\$a_{n}=${this.first}\cdot${this.ratio}^{n-1}\$`
+    return `a_{n}=${this.first}\cdot${this.ratio}^{n-1}`
   }
 }

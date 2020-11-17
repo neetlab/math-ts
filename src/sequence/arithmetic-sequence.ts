@@ -46,7 +46,7 @@ export class ArithmeticSequence extends Sequence {
     return ((first + last) * length) / 2;
   }
 
-  toString() {
-    return `\$a_{n}=${this.first}+${this.diff}(n-1)\$`
+  toTexString() {
+    return `a_{n}=${this.first}+${this.diff}(n-1)`
   }
 }

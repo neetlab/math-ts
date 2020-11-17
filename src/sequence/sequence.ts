@@ -1,6 +1,6 @@
-import { Show, Eq } from "../_interfaces";
+import { Eq, Tex } from "../_interfaces";
 
-export abstract class Sequence implements Iterable<number>, Show, Eq<Sequence> {
+export abstract class Sequence implements Iterable<number>, Tex, Eq<Sequence> {
   abstract readonly first: number;
   abstract readonly length: number;
 
@@ -15,8 +15,8 @@ export abstract class Sequence implements Iterable<number>, Show, Eq<Sequence> {
     return Array.from({ length: this.length }, (_, i) => this.getNth(i));
   }
 
-  toString() {
-    return `\${ ${this.toArray().join(', ')} }\$`;
+  toTexString() {
+    return `{ ${this.toArray().join(', ')} }`;
   }
 
   *[Symbol.iterator]() {

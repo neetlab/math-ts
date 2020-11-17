@@ -1,6 +1,6 @@
-import { Sum, Eq, Show } from "../_interfaces";
+import { Sum, Eq, Tex } from "../_interfaces";
 
-export class Vector implements Sum<Vector>, Eq<Vector>, Show {
+export class Vector implements Sum<Vector>, Eq<Vector>, Tex {
   constructor(readonly x: number, readonly y: number, readonly z: number) {}
 
   get norm() {
@@ -27,7 +27,7 @@ export class Vector implements Sum<Vector>, Eq<Vector>, Show {
     return Math.acos((this.dotProd(that) / this.norm) * that.norm);
   }
 
-  toString() {
-    return `\$(${this.x}, ${this.y}, ${this.z})\$`;
+  toTexString() {
+    return `(${this.x}, ${this.y}, ${this.z})`;
   }
 }
