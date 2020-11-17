@@ -83,7 +83,7 @@ export class SampleSpace implements ISampleSpace {
     return a.add(b).subtract(this.getIntersection(a, b));
   }
 
-  getIntersection(a: Event, b: Event) {
+  getIntersection(a: Event, b: Event): Event {
     const relationship = this.bindings.get(a).relationships.get(b);
 
     if (relationship instanceof Exclusive) {
@@ -94,15 +94,10 @@ export class SampleSpace implements ISampleSpace {
       return a.multiply(relationship.event);
     }
 
-    // 積の法則
-    return a.multiply(b);
+    return this.getConditionalProbability(a, b).multiply(b);
   }
 
-  getComplement(a: Event) {
-    return new Event(Math.max(0, 1 - a.probability));
-  }
-
-  getConditionalProbability(requirement: Event, event: Event) {
+  getConditionalProbability(requirement: Event, event: Event): Event {
     const relationship = this.bindings.get(requirement).relationships.get(event)
 
     if (relationship instanceof Exclusive) {
@@ -114,6 +109,10 @@ export class SampleSpace implements ISampleSpace {
     }
 
     return this.getIntersection(requirement, event).divide(event);
+  }
+
+  getComplement(a: Event) {
+    return new Event(Math.max(0, 1 - a.probability));
   }
 
   // nCr*p^r*(1-p)^(n-r)
