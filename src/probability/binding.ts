@@ -28,12 +28,14 @@ export class Binding {
       .filter(([event]) => event === this.subject)
       .reduce((last, [, relationship]) => {
         switch (relationship.type) {
+          // Exclusive and independent are bidirectional
           case RelationshipType.EXCLUSIVE:
             return last.exclusiveTo(object);
-          case RelationshipType.CONDITIONAL:
-            return last.conditionalOn(object, relationship.event);
           case RelationshipType.INDEPENDENT:
             return last.independentFrom(object);
+          // Condition is unidirectional
+          case RelationshipType.CONDITIONAL:
+            return last;
         }
       }, this as Binding);
   }
