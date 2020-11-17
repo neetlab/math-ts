@@ -1,5 +1,5 @@
 import { Event } from "./event";
-import { Conditional, Exclusive, Relationship } from "./relationship";
+import { Conditional, Exclusive, Relationship, Unrelated } from "./relationship";
 import { Binding } from './binding';
 import { nCr } from "./combination";
 import { DefaultMap, ReadonlyDefaultMap } from "../_utils";
@@ -100,6 +100,20 @@ export class SampleSpace implements ISampleSpace {
 
   getComplement(a: Event) {
     return new Event(Math.max(0, 1 - a.probability));
+  }
+
+  getConditionalProbability(requirement: Event, event: Event) {
+    const relationship = this.bindings.get(requirement).relationships.get(event)
+
+    if (relationship instanceof Exclusive) {
+      return new Event(0);
+    }
+
+    if (relationship instanceof Unrelated) {
+      return requirement;
+    }
+
+    return this.getIntersection(requirement, event).divide(event);
   }
 
   // nCr*p^r*(1-p)^(n-r)
