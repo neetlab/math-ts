@@ -1,8 +1,8 @@
 import { Event } from './event';
 
 export enum RelationshipType {
+  UNRELATED = 'unrelated',
   EXCLUSIVE = 'exclusive',
-  INDEPENDENT = 'independent',
   CONDITIONAL = 'conditional',
 };
 
@@ -10,8 +10,8 @@ export class Exclusive {
   readonly type = RelationshipType.EXCLUSIVE;
 }
 
-export class Independent {
-  readonly type = RelationshipType.INDEPENDENT;
+export class Unrelated {
+  readonly type = RelationshipType.UNRELATED;
 }
 
 export class Conditional {
@@ -22,4 +22,4 @@ export class Conditional {
   ) {}
 }
 
-export type Relationship = Exclusive | Independent | Conditional;
+export type Relationship = Exclusive | Unrelated | Conditional;

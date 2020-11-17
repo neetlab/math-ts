@@ -1,4 +1,4 @@
-import { Relationship, RelationshipType, Independent, Exclusive, Conditional } from './relationship';
+import { Relationship, RelationshipType, Exclusive, Conditional, Unrelated } from './relationship';
 import { Event } from './event';
 import { DefaultMap, ReadonlyDefaultMap } from '../_utils';
 
@@ -6,11 +6,11 @@ export class Binding {
   constructor (
     readonly subject: Event,
     readonly relationships: ReadonlyDefaultMap<Event, Relationship> =
-      new DefaultMap([], () => new Independent())
+      new DefaultMap([], () => new Unrelated())
   ) {}
 
-  independentFrom(object: Event) {
-    return this.relate(object, new Independent());
+  unrelatedTo(object: Event) {
+    return this.relate(object, new Unrelated());
   }
 
   exclusiveTo(object: Event) {
@@ -28,11 +28,11 @@ export class Binding {
       .filter(([event]) => event === this.subject)
       .reduce((last, [, relationship]) => {
         switch (relationship.type) {
+          case RelationshipType.UNRELATED:
+            return last.unrelatedTo(object);
           // Exclusive and independent are bidirectional
           case RelationshipType.EXCLUSIVE:
             return last.exclusiveTo(object);
-          case RelationshipType.INDEPENDENT:
-            return last.independentFrom(object);
           // Condition is unidirectional
           case RelationshipType.CONDITIONAL:
             return last;
