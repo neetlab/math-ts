@@ -187,7 +187,7 @@ const f2 = new Function(new Expression([
 ]));
 
 differentiate(f1).equals(f2);
-integrate(f2).x('x').equals(f1);
+integrate(f2).d('x').equals(f1);
 ```
 
 ## License
