@@ -173,5 +173,22 @@ a.getAngle(b) === Math.PI / 2;
 a.dotProd(a) === a.norm ** 2;
 ```
 
+### Calculus
+
+```ts
+// f_1(x) = 1/3x^3 + C
+const f1 = new Function(new Expression([
+  new Variable('x', 1/3, 3), C,
+]));
+
+// f_2(x) = x^2
+const f2 = new Function(new Expression([
+  new Variable('x', 1, 2),
+]));
+
+differentiate(f1).equals(f2);
+integrate(f2).x('x').equals(f1);
+```
+
 ## License
 MIT

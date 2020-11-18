@@ -10,7 +10,7 @@ export class Expression implements Tex, Eq<Expression>, Sum<Expression> {
   readonly [immerable] = true;
 
   constructor(
-    private readonly items: Item[] = [new Constant(0)],
+    readonly items: Item[] = [new Constant(0)],
   ) {}
 
   getVariables() {

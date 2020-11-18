@@ -8,7 +8,7 @@ export class Function implements Tex, Eq<Function> {
   readonly [immerable] = true;
 
   constructor (
-    private readonly expression: Expression
+    readonly expression: Expression,
   ) {}
 
   call(values: Values) {
