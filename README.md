@@ -205,7 +205,7 @@ const f2 = new Function(new Expression([
   new Variable('x', 1, 2),
 ]));
 
-differentiate(f1).equals(f2);
+differentiate(f1).d('x').equals(f2);
 integrate(f2).d('x').equals(f1);
 ```
 
