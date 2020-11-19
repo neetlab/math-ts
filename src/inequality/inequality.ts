@@ -1,5 +1,6 @@
 import { immerable } from "immer";
 import { Expression } from "src/expression";
+import { Tex } from "../_interfaces";
 
 export enum InequalityType {
   GT  = 'GT',
@@ -10,7 +11,7 @@ export enum InequalityType {
 
 type Solution = ReadonlyMap<string | symbol, number>;
 
-export class Inequality {
+export class Inequality implements Tex {
   readonly [immerable] = true;
 
   constructor(
@@ -23,6 +24,17 @@ export class Inequality {
     const lhs = this.lhs.substitute(solution).toNumber();
     const rhs = this.rhs.substitute(solution).toNumber();
     return this.compare(lhs, rhs);
+  }
+
+  toTexString() {
+    const infix = ({
+      [InequalityType.GT]:  '>',
+      [InequalityType.GTE]: '\\geq',
+      [InequalityType.LT]:  '<',
+      [InequalityType.LTE]: '\\leq',
+    })[this.type]
+
+    return `${this.lhs.toTexString()}${infix}${this.rhs.toTexString()}`;
   }
 
   private compare(a: number, b: number) {

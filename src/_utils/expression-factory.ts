@@ -83,4 +83,4 @@ class ExpressionFactory {
 }
 
 const singleton = new ExpressionFactory();
-export const $ = new ExpressionFactory().plus.bind(singleton);
+export const $ = singleton.plus.bind(singleton);
