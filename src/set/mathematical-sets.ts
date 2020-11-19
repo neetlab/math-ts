@@ -1,3 +1,4 @@
+import { Tex } from "../_interfaces";
 import { Complex } from "../complex";
 
 interface InexhaustibleReadonlySet<T> {
@@ -5,40 +6,64 @@ interface InexhaustibleReadonlySet<T> {
   has(v: T): boolean;
 }
 
-export class N implements InexhaustibleReadonlySet<unknown> {
+class NaturalNumbers implements InexhaustibleReadonlySet<unknown> {
   size = Number.POSITIVE_INFINITY;
 
   has(v: unknown) {
     if (typeof v === 'number' && v % 1 === 0 && v >= 1) return true;
     return false;
   } 
+
+  toTexString() {
+    return '\\mathbb{N}';
+  }
 }
 
-export class Z implements InexhaustibleReadonlySet<unknown> {
+export const N = new NaturalNumbers();
+
+class Integers implements InexhaustibleReadonlySet<unknown> {
   size = Number.POSITIVE_INFINITY;
 
   has(v: unknown) {
     if (typeof v === 'number' && Number.isInteger(v)) return true;
     return false;
   } 
+
+  toTexString() {
+    return '\\mathbb{Z}';
+  }
 }
+
+export const Z = new Integers();
 
 // Q is not implementable
 
-export class R implements InexhaustibleReadonlySet<unknown> {
+class RealNumbers implements InexhaustibleReadonlySet<unknown>, Tex {
   size = Number.POSITIVE_INFINITY;
 
   has(v: unknown) {
     if (typeof v === 'number') return true;
     return false;
   } 
+
+  toTexString() {
+    return '\\mathbb{R}';
+  }
 }
 
-export class C implements InexhaustibleReadonlySet<unknown> {
+export const R = new RealNumbers();
+
+class ComplexNumbers implements InexhaustibleReadonlySet<unknown>, Tex {
   size = Number.POSITIVE_INFINITY;
 
   has(v: unknown) {
     if (v instanceof Complex) return true;
     return false;
   } 
+
+  toTexString() {
+    return '\\mathbb{C}';
+  }
 }
+
+export const C = new ComplexNumbers();

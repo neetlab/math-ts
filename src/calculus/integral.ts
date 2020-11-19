@@ -1,7 +1,7 @@
 import { Constant, Expression, Term, Variable } from "../expression";
 import { Function } from "../function";
 
-export const C = new Constant(NaN);
+export const CONSTANT_OF_INTEGRATION = new Constant(NaN);
 
 const indefiniteIntegrate = (f: Function, x: string | symbol) => {
   const expr = new Expression(
@@ -10,7 +10,7 @@ const indefiniteIntegrate = (f: Function, x: string | symbol) => {
         if (t instanceof Constant) return new Variable(x, 1, 1);
         return new Variable(t.name, 1 / t.exponent + 1, t.exponent + 1);
       })
-      .concat(C),
+      .concat(CONSTANT_OF_INTEGRATION),
   );
 
   return new Function(expr);

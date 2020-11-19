@@ -1,7 +1,7 @@
 import { Expression, Variable } from '../expression';
 import { Function } from '../function';
 import { differentiate } from './differential'
-import { integrate, C } from './integral';
+import { integrate, CONSTANT_OF_INTEGRATION as C } from './integral';
 
 describe('calculus', () => {
   const f1 = new Function(new Expression([

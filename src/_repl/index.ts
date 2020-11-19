@@ -29,6 +29,7 @@ const toTex = (data: TexLike): string => {
 const formatTex = (content: unknown, outfile: string) => {
   return `\\documentclass[convert={ghostscript,outfile=${outfile}}]{standalone}
 \\usepackage{xcolor}
+\\usepackage{amssymb}
 \\begin{document}
 \\pagecolor{black}
 \\color{white}
