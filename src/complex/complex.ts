@@ -3,6 +3,10 @@ import { Eq, Sum, Prod, Tex } from "../_interfaces";
 export class Complex implements Eq<Complex>, Sum<Complex>, Prod<Complex>, Tex {
   constructor(readonly real: number, readonly imagine: number) {}
 
+  static from(x: number) {
+    return new Complex(x, 0);
+  }
+
   equals(that: Complex) {
     return this.real === that.real && this.imagine === that.imagine;
   }
