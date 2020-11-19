@@ -1,7 +1,7 @@
 import { Tex } from '../_interfaces';
 import { Expression } from '../expression';
 
-export type Solution = ReadonlyMap<string | symbol, number>;
+type Solution = ReadonlyMap<string | symbol, number>;
 
 export class Equation implements Tex {
   constructor(

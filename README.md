@@ -53,6 +53,19 @@ p.test(new Map([['x', 2]]) === true;
 p.test(new Map([['x', -3]]) === true;
 ```
 
+### Inequality
+
+```ts
+const inequality = new Inequality(
+  InequalityType.GT,
+  new Expression([new Variable('x', 2, 1)]),
+  new Expression([new Variable('x', 1, 1)]),
+);
+
+inequality.test(new Map([['x', 1]]));  // true
+inequality.test(new Map([['x', -1]])); // false
+```
+
 ### Identity
 
 ```ts

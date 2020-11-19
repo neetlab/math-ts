@@ -1,6 +1,6 @@
 import { immerable } from "immer";
 import { Tex } from "../_interfaces";
-import { Expression, Item } from "../expression";
+import { Expression, Term } from "../expression";
 
 export class Identity implements Tex {
   readonly [immerable] = true;
@@ -21,25 +21,25 @@ export class Identity implements Tex {
     );
   }
 
-  moveToRight(item: Item) {
-    if (!this.lhs.has(item)) {
-      throw new Error(`LHS has no item named ${item.toTexString()}`);
+  moveToRight(term: Term) {
+    if (!this.lhs.has(term)) {
+      throw new Error(`LHS has no term named ${term.toTexString()}`);
     }
 
     return new Identity(
-      this.lhs.remove(item),
-      this.rhs.add(new Expression([item.product(-1)])),
+      this.lhs.remove(term),
+      this.rhs.add(new Expression([term.product(-1)])),
     );
   }
 
-  moveToLeft(item: Item) {
-    if (!this.rhs.has(item)) {
-      throw new Error(`LHS has no item named ${item.toTexString()}`);
+  moveToLeft(term: Term) {
+    if (!this.rhs.has(term)) {
+      throw new Error(`LHS has no term named ${term.toTexString()}`);
     }
 
     return new Identity(
-      this.rhs.remove(item),
-      this.lhs.add(new Expression([item.product(-1)])),
+      this.rhs.remove(term),
+      this.lhs.add(new Expression([term.product(-1)])),
     );
   }
 
