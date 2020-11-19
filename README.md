@@ -13,12 +13,14 @@ TypeScript implementation for mathematical concepts
 - Vector
 - Identity
 - Function
-
-### Todo
 - Inequality
 - Calculus
-- Line, circle equations
+
+### Todo
 - Matrix
+- Logarithm
+- Trigonometry
+- Line, circle equations
 - Position vector
 
 ### REPL
@@ -168,10 +170,14 @@ const t = new Set([1,2])
 
 isSuperset(s, t) === true;
 isSubset(t, s)   === true;
-
 getUnion(s, t).equals(s);
 getIntersection(s, t).equals(t);
 getComplement(s, t) // {3}
+
+R.has(1);   // true
+Z.has(0.1); // false
+N.has(-1)   // false
+C.has(new Complex(2, 1)); // true
 ```
 
 ### Vector
