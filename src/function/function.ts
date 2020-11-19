@@ -2,7 +2,7 @@ import { immerable } from "immer";
 import { Expression } from "../expression";
 import { Tex, Eq } from "../_interfaces";
 
-export type Values = ReadonlyMap<string | symbol, number>;
+type Values = ReadonlyMap<string | symbol, number>;
 
 export class Function implements Tex, Eq<Function> {
   readonly [immerable] = true;

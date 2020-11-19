@@ -1,9 +1,9 @@
 import { immerable } from 'immer';
 import { Eq, Tex } from '../_interfaces';
 import { Constant } from './constant';
-import { Item } from './expression';
+import { Term } from './expression';
 
-export class Variable implements Tex, Eq<Item> {
+export class Variable implements Tex, Eq<Term> {
   readonly [immerable] = true;
 
   constructor(
@@ -20,7 +20,7 @@ export class Variable implements Tex, Eq<Item> {
     return new Variable(this.name, this.factor * k, this.exponent);
   }
 
-  equals(that: Item) {
+  equals(that: Term) {
     return that instanceof Variable
       && this.name === that.name
       && this.factor === that.factor

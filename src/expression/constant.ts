@@ -1,5 +1,5 @@
 import { Prod, Sum, Tex, Eq } from '../_interfaces';
-import { Item } from './expression';
+import { Term } from './expression';
 
 export const CONSTANT = Symbol();
 
@@ -26,7 +26,7 @@ export class Constant implements Tex, Sum<Constant>, Prod<Constant>, Eq<Constant
     return this.value;
   }
 
-  equals(that: Item) {
+  equals(that: Term) {
     return that instanceof Constant
      && this.name === that.name
      && this.value === that.value;

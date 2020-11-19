@@ -4,7 +4,7 @@ import { Constant } from './constant';
 import { Variable } from './variable';
 
 export type Term = Variable | Constant;
-export type Values = ReadonlyMap<string | symbol, number>;
+type Values = ReadonlyMap<string | symbol, number>;
 
 export class Expression implements Tex, Eq<Expression>, Sum<Expression> {
   readonly [immerable] = true;
