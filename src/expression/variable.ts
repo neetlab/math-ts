@@ -8,8 +8,8 @@ export class Variable implements Tex, Eq<Term> {
 
   constructor(
     readonly name: symbol | string,
-    readonly factor: number,
-    readonly exponent: number,
+    readonly factor = 1,
+    readonly exponent = 1,
   ) {}
 
   substitute(value: number) {

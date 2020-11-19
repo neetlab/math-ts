@@ -13,3 +13,4 @@ export * from "./sequence";
 export * from "./set";
 export * from './sigma';
 export * from "./vector";
+export * from './geometry';

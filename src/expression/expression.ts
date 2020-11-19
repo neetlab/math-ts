@@ -14,32 +14,43 @@ export class Expression implements Tex, Eq<Expression>, Sum<Expression> {
   ) {}
 
   getVariables() {
-    return this.terms.filter((item): item is Variable => item instanceof Variable);
+    return this.terms.filter((term): term is Variable => term instanceof Variable);
+  }
+
+  getVariable(name: string | symbol) {
+    return this.terms.find((term): term is Variable => term instanceof Variable && term.name === name);
   }
 
   getConstants() {
-    return this.terms.filter((item): item is Constant => item instanceof Constant);
+    return this.terms.filter((term): term is Constant => term instanceof Constant);
   }
 
   evaluate() {
     const constant = this.terms
-      .filter((item): item is Constant => item instanceof Constant)
-      .reduce((last, item) => {
-        return last.add(item);
+      .filter((term): term is Constant => term instanceof Constant)
+      .reduce((last, term) => {
+        return last.add(term);
       }, new Constant(0));
     
     const variables = this.terms
-      .filter((item): item is Variable => item instanceof Variable);
+      .filter((term): term is Variable => term instanceof Variable);
 
     return new Expression([...variables, constant]);
   }
 
-  has(item: Term) {
-    return this.terms.includes(item);
+  has(term: Term) {
+    return this.terms.includes(term);
   }
 
   add(expr: Expression) {
     return new Expression([...this.terms, ...expr.terms ]).evaluate();
+  }
+
+  multiply(k: number) {
+    return new Expression(this.terms.map((term) => {
+      if (term instanceof Constant) return new Constant(term.evaluate() * k);
+      return new Variable(term.name, term.factor * k, term.exponent);
+    }));
   }
 
   substitute(values: Values) {
@@ -57,25 +68,25 @@ export class Expression implements Tex, Eq<Expression>, Sum<Expression> {
   }
 
   toTexString() {
-    return this.terms.map((item) => item.toTexString()).join('+');
+    return this.terms.map((term) => term.toTexString()).join('+');
   }
 
   toNumber() {
-    return this.terms.reduce((last, item) => {
-      if (item instanceof Variable) {
+    return this.terms.reduce((last, term) => {
+      if (term instanceof Variable) {
         throw new Error(`Expression has unassigned variable ${Variable.name}`);
       }
 
-      return last + item.evaluate();
+      return last + term.evaluate();
     }, 0);
   }
 
   private substituteOne(name: symbol | string, value: number) {
     return new Expression(
-      this.terms.map((item) => {
-        if (item instanceof Constant) return item;
-        if (item.name !== name) return item;
-        return item.substitute(value);
+      this.terms.map((term) => {
+        if (term instanceof Constant) return term;
+        if (term.name !== name) return term;
+        return term.substitute(value);
       }),
     );
   }
