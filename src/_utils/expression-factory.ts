@@ -2,20 +2,20 @@ import { Equation } from "../equation";
 import { Inequality, InequalityType } from "../inequality";
 import { Constant, Expression, Variable } from "../expression";
 
-class ExpressionFactory {
+class ExpressionBuilder {
   constructor(
     private readonly expression = new Expression(),
   ) {}
 
-  plus(factor: number, name: string | symbol, exponent?: number): ExpressionFactory;
-  plus(name: string | symbol, exponent?: number): ExpressionFactory;
-  plus(value: number): ExpressionFactory
-  plus(first: number | string | symbol, second?: string | symbol | number, exponent?: number): ExpressionFactory {
+  plus(factor: number, name: string | symbol, exponent?: number): ExpressionBuilder;
+  plus(name: string | symbol, exponent?: number): ExpressionBuilder;
+  plus(value: number): ExpressionBuilder 
+  plus(first: number | string | symbol, second?: string | symbol | number, exponent?: number): ExpressionBuilder {
     if ((typeof first === 'string' || typeof first === 'symbol') && typeof second === 'number') {
       const name = first;
       const factor = second;
 
-      return new ExpressionFactory(
+      return new ExpressionBuilder(
         this.expression.add(new Expression([ new Variable(name, factor, exponent) ])),
       );
     }
@@ -24,13 +24,13 @@ class ExpressionFactory {
       const factor = first;
       const name = second;
 
-      return new ExpressionFactory(
+      return new ExpressionBuilder(
         this.expression.add(new Expression([ new Variable(name, factor, exponent) ])),
       );
     }
 
     if (typeof first === 'number' && typeof second === 'undefined') {
-      return new ExpressionFactory(
+      return new ExpressionBuilder(
         this.expression.add(new Expression([ new Constant(first) ])),
       );
     }
@@ -38,14 +38,14 @@ class ExpressionFactory {
     throw new TypeError();
   }
 
-  isEqualTo(that: ExpressionFactory) {
+  isEqualTo(that: ExpressionBuilder) {
     return new Equation(
       this.expression,
       that.expression,
     );
   }
 
-  isGreaterThan(that: ExpressionFactory) {
+  isGreaterThan(that: ExpressionBuilder) {
     return new Inequality(
       InequalityType.GT,
       this.expression,
@@ -53,7 +53,7 @@ class ExpressionFactory {
     );
   }
 
-  isLessThan(that: ExpressionFactory) {
+  isLessThan(that: ExpressionBuilder) {
     return new Inequality(
       InequalityType.LT,
       this.expression,
@@ -61,7 +61,7 @@ class ExpressionFactory {
     );
   }
 
-  isGreaterThanOrEqualTo(that: ExpressionFactory) {
+  isGreaterThanOrEqualTo(that: ExpressionBuilder) {
     return new Inequality(
       InequalityType.LTE,
       this.expression,
@@ -69,7 +69,7 @@ class ExpressionFactory {
     );
   }
 
-  isLessThanOrEqualTo(that: ExpressionFactory) {
+  isLessThanOrEqualTo(that: ExpressionBuilder) {
     return new Inequality(
       InequalityType.LTE,
       this.expression,
@@ -82,5 +82,5 @@ class ExpressionFactory {
   }
 }
 
-const singleton = new ExpressionFactory();
+const singleton = new ExpressionBuilder();
 export const $ = singleton.plus.bind(singleton);

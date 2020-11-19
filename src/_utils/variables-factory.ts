@@ -1,22 +1,14 @@
-class PipeMap<K, V> extends Map<K, V> implements ReadonlyMap<K, V> {
-  constructor(entries?: readonly (readonly [K, V])[] | null) {
-    super(entries); 
-  }
+class VariablesBuilder {
+  constructor(private readonly map = new Map<string | symbol, number>()) {}  
 
-  get and(): VariablesFactory['where'] {
-    return new VariablesFactory(this as unknown as PipeMap<string | symbol, number>).where;
+  and = (name: string | symbol, value: number) => {
+    return new VariablesBuilder(new Map([...this.map.entries()].concat([name, value])));
+  };
+
+  toMap() {
+    return this.map;
   }
 }
 
-class VariablesFactory {
-  constructor(private readonly map = new PipeMap<string | symbol, number>()) {}  
-
-  where = (name: string | symbol) => ({
-    is: (value: number) => {
-      return new PipeMap([...this.map.entries()].concat([name, value]));
-    }
-  });
-}
-
-const singleton = new VariablesFactory();
-export const where = singleton.where.bind(singleton);
+const singleton = new VariablesBuilder();
+export const where = singleton.and.bind(singleton);
