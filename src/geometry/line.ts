@@ -1,6 +1,7 @@
 import { Constant, Expression, Variable } from "../expression";
 import { Equation } from "../equation";
 import { Point } from "./point";
+import { Vector } from "../vector";
 
 export class Line {
   constructor(
@@ -42,6 +43,13 @@ export class Line {
       / //------------ 
       Math.hypot(a, b)
     );
+  }
+
+  getNormalVector() {
+    const xv = this.equation.lhs.getVariable('x')?.factor;
+    const yv = this.equation.lhs.getVariable('y')?.factor;
+    if (xv == null || yv == null) throw new Error();
+    return new Vector(xv, yv, 0);
   }
 
   isRightAngle(that: Line) {
