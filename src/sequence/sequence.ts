@@ -1,11 +1,11 @@
 import { Eq, Tex } from "../_interfaces";
 
 export abstract class Sequence implements Iterable<number>, Tex, Eq<Sequence> {
-  abstract readonly first: number;
-  abstract readonly length: number;
-
   abstract getNth(n: number): number;
   abstract equals(that: Sequence): boolean;
+
+  readonly length: number = Number.POSITIVE_INFINITY;
+  readonly first = this.getNth(0);
 
   get last() {
     return this.getNth(this.length - 1);
