@@ -57,7 +57,7 @@ class ComplexNumbers implements InexhaustibleReadonlySet<unknown>, Tex {
   size = Number.POSITIVE_INFINITY;
 
   has(v: unknown) {
-    if (v instanceof Complex) return true;
+    if (v instanceof Complex || typeof v === 'number') return true;
     return false;
   } 
 
