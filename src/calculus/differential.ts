@@ -2,7 +2,7 @@ import { Constant, Expression, Variable } from '../expression';
 import { Function } from '../function';
 
 export const differentiate = (f: Function) => {
-  const expr = new Expression(f.expression.items.map((t) => {
+  const expr = new Expression(f.expression.terms.map((t) => {
     // (c)' = 0
     if (t instanceof Constant) return new Constant(0);
     // (x^n)' = nx^(x-1)

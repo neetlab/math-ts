@@ -1,12 +1,12 @@
-import { Constant, Expression, Item, Variable } from "../expression";
+import { Constant, Expression, Term, Variable } from "../expression";
 import { Function } from "../function";
 
 export const C = new Constant(NaN);
 
 const indefiniteIntegrate = (f: Function, x: string | symbol) => {
   const expr = new Expression(
-    f.expression.items
-      .map((t): Item => {
+    f.expression.terms
+      .map((t): Term => {
         if (t instanceof Constant) return new Variable(x, 1, 1);
         return new Variable(t.name, 1 / t.exponent + 1, t.exponent + 1);
       })
