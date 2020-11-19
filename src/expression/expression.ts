@@ -10,7 +10,7 @@ export class Expression implements Tex, Eq<Expression>, Sum<Expression> {
   readonly [immerable] = true;
 
   constructor(
-    readonly terms: Term[] = [new Constant(0)],
+    readonly terms: Term[] = [],
   ) {}
 
   getVariables() {
@@ -28,6 +28,7 @@ export class Expression implements Tex, Eq<Expression>, Sum<Expression> {
   evaluate() {
     const constant = this.terms
       .filter((term): term is Constant => term instanceof Constant)
+      .filter((term) => term.evaluate() !== 0)
       .reduce((last, term) => {
         return last.add(term);
       }, new Constant(0));

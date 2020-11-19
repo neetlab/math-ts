@@ -15,11 +15,21 @@ export class Function implements Tex, Eq<Function> {
     return this.expression.substitute(values);
   }
 
+  partial(values: Values) {
+    return new Function(this.expression.substitute(values));
+  }
+
   equals(that: Function) {
     return this.expression.equals(that.expression);
   }
   
   toTexString() {
-    return `f(x)=${this.expression.toTexString()}`;
+    const variables = this.expression
+      .getVariables()
+      .map((variable) => variable.name)
+      .reduce((unique, name) => unique.includes(name) ? unique : unique.concat(name), [] as (string | symbol)[])
+      .join(', ');
+
+    return `f(${variables})=${this.expression.toTexString()}`;
   }
 }

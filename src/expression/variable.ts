@@ -13,7 +13,7 @@ export class Variable implements Tex, Eq<Term> {
   ) {}
 
   substitute(value: number) {
-    return new Constant(this.factor * value ** this.exponent);
+    return new Constant((this.factor * value) ** this.exponent);
   }
 
   product(k: number) {
@@ -28,13 +28,18 @@ export class Variable implements Tex, Eq<Term> {
   }
 
   toTexString() {
+    if (this.exponent === 0) return this.factor.toString(); // fixme
     let str = '';
-    if (this.factor < 0) str += this.factor
-    if (this.factor === 0) return str;
-    if (this.factor > 1) str += this.factor
+    // factor
+    if (this.factor !== 1) {
+      if (this.factor < 0) str += this.factor
+      if (this.factor > 0) str += this.factor
+      if (this.factor === 0) return '0';
+    }
+    // body
     str += this.name.toString();
+    // exponent
     if (this.exponent !== 1) str += `^${this.exponent}`;
     return str;
   }
 }
-

@@ -1,5 +1,6 @@
 import { Equation } from "../equation";
 import { Inequality, InequalityType } from "../inequality";
+import { Function } from '../function';
 import { Constant, Expression, Variable } from "../expression";
 
 class ExpressionBuilder {
@@ -7,11 +8,25 @@ class ExpressionBuilder {
     private readonly expression = new Expression(),
   ) {}
 
+  plus(variable: Variable): ExpressionBuilder
+  plus(constant: Constant): ExpressionBuilder
   plus(factor: number, name: string | symbol, exponent?: number): ExpressionBuilder;
   plus(name: string | symbol, exponent?: number): ExpressionBuilder;
   plus(value: number): ExpressionBuilder 
-  plus(first: number | string | symbol, second?: string | symbol | number, exponent?: number): ExpressionBuilder {
-    if ((typeof first === 'string' || typeof first === 'symbol') && typeof second === 'number') {
+  plus(first: any, second?: any, exponent?: number): ExpressionBuilder {
+    if (first instanceof Variable) {
+      return new ExpressionBuilder(
+        this.expression.add(new Expression([ first ])),
+      );
+    }
+
+    if (first instanceof Constant) {
+      return new ExpressionBuilder(
+        this.expression.add(new Expression([ first ])),
+      );
+    }
+
+    if ((typeof first === 'string' || typeof first === 'symbol') && (typeof second === 'number' || typeof second === 'undefined')) {
       const name = first;
       const factor = second;
 
@@ -75,6 +90,10 @@ class ExpressionBuilder {
       this.expression,
       that.expression,
     );
+  }
+
+  toFunction() {
+    return new Function(this.expression);
   }
 
   get $() {

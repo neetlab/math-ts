@@ -1,20 +1,13 @@
-import { Expression, Variable } from '../expression';
-import { Function } from '../function';
+import { $, where } from '../_utils';
+import { x } from '../expression';
 import { differentiate } from './differential'
 import { integrate, CONSTANT_OF_INTEGRATION as C } from './integral';
 
 describe('calculus', () => {
-  const f1 = new Function(new Expression([
-    new Variable('x', 1/3, 3), C,
-  ]));
-
-  const f2 = new Function(new Expression([
-    new Variable('x', 1, 2),
-  ]));
-
-  console.log(f2.toTexString(), f1.toTexString());
-  console.log(differentiate(f1).toTexString(), integrate(f2).d('x').toTexString());
-
-  expect(differentiate(f1)).toEq(f2);
-  expect(integrate(f2).d('x')).toEq(f1);
+  test("∫f'(x) = f(x)", () => {
+    const f = $(3, x, 2).plus(2, x).plus(5).toFunction()
+    const fp = differentiate(f);
+    const F = integrate(fp).d(x);
+    expect(f).toEq(F.partial(where(C, 5).toMap()));
+  })
 });
