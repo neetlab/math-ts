@@ -26,7 +26,7 @@ export class Complex implements Eq<Complex>, Sum<Complex>, Prod<Complex>, Tex {
     return new Complex(this.real, this.imagine * -1);
   }
 
-  toInteger() {
+  toRealNumber() {
     if (this.imagine !== 0) {
       throw new Error(`${this.toString()} is not a real number`)
     };
