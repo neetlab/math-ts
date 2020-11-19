@@ -4,5 +4,5 @@ export * from './not';
 export * from './default-map';
 
 export * from './convergence';
-export * from './expression-factory';
-export * from './variables-factory';
+export * from './expression-builder';
+export * from './variables-builder';
