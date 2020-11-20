@@ -18,3 +18,6 @@ export const combine = <T>(
 export const nCr = (n: number, r: number) => {
   return nPr(n, r) / factorial(r);
 }
+
+// Combination with duplication
+export const nHr = (n: number, r: number) => nCr(n + r - 1, r);
