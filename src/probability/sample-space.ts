@@ -1,3 +1,4 @@
+import { Tex } from "../_interfaces";
 import { Event } from "./event";
 import { Conditional, Exclusive, Relationship, Independent } from "./relationship";
 import { Binding } from './binding';
@@ -12,7 +13,7 @@ interface ISampleSpace {
   getComplement(a: Event): Event;
 }
 
-export class SampleSpace implements ISampleSpace {
+export class SampleSpace implements ISampleSpace, Tex {
   private readonly bindings: ReadonlyDefaultMap<Event, Binding>;
 
   constructor(
@@ -90,5 +91,9 @@ export class SampleSpace implements ISampleSpace {
 
   getComplement(a: Event) {
     return new Event(Math.max(0, 1 - a.probability));
+  }
+
+  toTexString() {
+    return `\\Omega=\\{ ${[...this.events.keys()].map(key => 's_' + key).join(', ')} \\}`
   }
 }

@@ -1,6 +1,6 @@
-import { Prod,Sum } from "../_interfaces";
+import { Prod,Sum, Tex } from "../_interfaces";
 
-export class Event implements Sum<Event>, Prod<Event> {
+export class Event implements Sum<Event>, Prod<Event>, Tex {
   constructor (
     readonly probability: number,
     readonly experiment = () => Math.random() <= probability,
@@ -32,5 +32,9 @@ export class Event implements Sum<Event>, Prod<Event> {
 
   isUniversal() {
     return this.probability === 1;
+  }
+
+  toTexString() {
+    return `P(A)=${this.probability > 0 ? this.probability : '\\varnothing'}`;
   }
 }
