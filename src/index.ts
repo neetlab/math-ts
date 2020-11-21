@@ -12,5 +12,5 @@ export * from "./probability";
 export * from "./sequence";
 export * from "./set";
 export * from './sigma';
-export * from "./vector";
+export * as vector from "./vector";
 export * from './geometry';
