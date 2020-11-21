@@ -33,23 +33,23 @@ export const fieldInteger: Field<Integer> = {
   degree: () => 1,
   zero: integer(0),
   one: integer(1),
-  add: (a: Integer, b: Integer) => integer(a.value + b.value),
-  sub: (a: Integer, b: Integer) => integer(a.value - b.value),
-  mul: (a: Integer, b: Integer) => integer(a.value * b.value),
-  div: (a: Integer, b: Integer) => integer(a.value / b.value),
-  mod: (a: Integer, b: Integer) => integer(a.value % b.value),
+  add: (a, b) => integer(a.value + b.value),
+  sub: (a, b) => integer(a.value - b.value),
+  mul: (a, b) => integer(a.value * b.value),
+  div: (a, b) => integer(a.value / b.value),
+  mod: (a, b) => integer(a.value % b.value),
 }
 
 export const rationalInteger: IntegerLike<Integer> = {
   getInteger: identity,
-  getRational: (i: Integer) => rational(i, one),
-  getReal: (i: Integer) => real(i.value),
-  getComplex: (i: Integer) => complex(getReal(i), I.zero),
+  getRational: (i) => rational(i, one),
+  getReal: (i) => real(i.value),
+  getComplex: (i) => complex(getReal(i), I.zero),
 }
 
 export const ordInteger: Ord<Integer> = { 
-  equals: (a: Integer, b: Integer) => a.value === b.value,
-  compare: (a: Integer, b: Integer): Ordering => a.value - b.value === 0 ? 0 : a.value > b.value ? 1 : -1,
+  equals: (a, b) => a.value === b.value,
+  compare: (a, b): Ordering => a.value - b.value === 0 ? 0 : a.value > b.value ? 1 : -1,
 };
 
 export const { equals, compare } = ordInteger;

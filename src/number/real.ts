@@ -21,23 +21,23 @@ export const real = (value: number): Real => ({
 
 export const complexReal: RealLike<Real> = {
   getReal: identity,
-  getComplex: (r: Real) => complex(r, imaginary(real(0))),
+  getComplex: (r) => complex(r, imaginary(real(0))),
 }
 
 export const fieldReal: Field<Real> = {
   degree: () => 1,
   zero: real(0),
   one: real(1),
-  add: (a: Real, b: Real) => real(a.value + b.value),
-  sub: (a: Real, b: Real) => real(a.value - b.value),
-  mul: (a: Real, b: Real) => real(a.value * b.value),
-  div: (a: Real, b: Real) => real(a.value / b.value),
-  mod: (a: Real, b: Real) => real(a.value % b.value),
+  add: (a, b) => real(a.value + b.value),
+  sub: (a, b) => real(a.value - b.value),
+  mul: (a, b) => real(a.value * b.value),
+  div: (a, b) => real(a.value / b.value),
+  mod: (a, b) => real(a.value % b.value),
 }
 
 export const ordReal: Ord<Real> = {
-  equals: (a: Real, b: Real) => a.value === b.value,
-  compare: (a: Real, b: Real): Ordering => a.value === b.value ? 0 : a.value > b.value ? 1 : -1,
+  equals: (a, b) => a.value === b.value,
+  compare: (a, b): Ordering => a.value === b.value ? 0 : a.value > b.value ? 1 : -1,
 }
 
 export const { getReal, getComplex } = complexReal;

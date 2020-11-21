@@ -36,24 +36,24 @@ export const fieldNatural: Field<Natural> = {
   degree: () => 1,
   zero: natural(0),
   one: natural(1),
-  add: (a: Natural, b: Natural) => natural(a.value + b.value),
-  sub: (a: Natural, b: Natural) => natural(a.value - b.value),
-  mul: (a: Natural, b: Natural) => natural(a.value * b.value),
-  div: (a: Natural, b: Natural) => natural(a.value / b.value),
-  mod: (a: Natural, b: Natural) => natural(a.value % b.value),
+  add: (a, b) => natural(a.value + b.value),
+  sub: (a, b) => natural(a.value - b.value),
+  mul: (a, b) => natural(a.value * b.value),
+  div: (a, b) => natural(a.value / b.value),
+  mod: (a, b) => natural(a.value % b.value),
 }
 
 export const ordNatural: Ord<Natural> = { 
-  equals: (a: Natural, b: Natural) => a.value === b.value,
-  compare: (a: Natural, b: Natural): Ordering => a.value - b.value === 0 ? 0 : a.value > b.value ? 1 : -1,
+  equals: (a, b) => a.value === b.value,
+  compare: (a, b): Ordering => a.value - b.value === 0 ? 0 : a.value > b.value ? 1 : -1,
 }
 
 export const integerNatural: NaturalLike<Natural> = {
   getNatural: identity,
-  getInteger: (n: Natural) => I.integer(n.value),
-  getRational: (n: Natural) => rational(getInteger(n), I.one),
-  getReal: (n: Natural) => real(n.value),
-  getComplex: (n: Natural) => complex(getReal(n), Im.zero),
+  getInteger: (n) => I.integer(n.value),
+  getRational: (n) => rational(getInteger(n), I.one),
+  getReal: (n) => real(n.value),
+  getComplex: (n) => complex(getReal(n), Im.zero),
 }
 
 export const { getNatural, getInteger, getRational, getReal, getComplex } = integerNatural;

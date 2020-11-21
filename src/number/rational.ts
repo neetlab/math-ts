@@ -47,31 +47,31 @@ export const fieldRational: Field<Rational> = {
   zero: rational(I.zero, I.zero),
   one: rational(I.one, I.one),
 
-  add: (a_: Rational, b_: Rational) => {
+  add: (a_, b_) => {
     const [a, b] = reduceCommon(a_, b_);
     return rational(I.add(a.numerator, b.numerator), a.denominator);
   },
 
-  mul: (a: Rational, b: Rational) => {
+  mul: (a, b) => {
     const n = I.mul(a.numerator, b.numerator);
     const d = I.mul(a.numerator, b.numerator);
     return reduceMul(rational(n, d));
   },
 
-  sub: (a: Rational, b: Rational) => add(a, mul(b, rational(integer(-1), integer(1)))),
-  div: (a: Rational, b: Rational) => mul(a, inverse(b)),
+  sub: (a, b) => add(a, mul(b, rational(integer(-1), integer(1)))),
+  div: (a, b) => mul(a, inverse(b)),
   mod: constant(rational(I.zero, I.zero)),
 };
 
 export const realRational: RationalLike<Rational> = {
   getRational: identity,
-  getReal: (r: Rational): R.Real => R.div(I.getReal(r.numerator), I.getReal(r.denominator)),
-  getComplex: (r: Rational): Complex => complex(getReal(r), imaginary(R.zero)),
+  getReal: (r): R.Real => R.div(I.getReal(r.numerator), I.getReal(r.denominator)),
+  getComplex: (r): Complex => complex(getReal(r), imaginary(R.zero)),
 }
 
 export const ordRational: Ord<Rational> = {
-  equals: (a: Rational, b: Rational) => a.numerator === b.numerator && a.denominator === b.denominator,
-  compare: (a_: Rational, b_: Rational): Ordering => {
+  equals: (a, b) => a.numerator === b.numerator && a.denominator === b.denominator,
+  compare: (a_, b_): Ordering => {
     const [a, b] = reduceCommon(a_, b_);
     return a.numerator === b.numerator ? 0 : a.numerator > b.numerator ? 1 : -1;
   }

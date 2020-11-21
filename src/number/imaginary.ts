@@ -20,24 +20,23 @@ export const imaginary = (factor: Real): Imaginary => ({
 });
 
 export const eqImaginary: Eq<Imaginary> = {
-  equals: (a: Imaginary, b: Imaginary) => a.factor === b.factor,
+  equals: (a, b) => a.factor === b.factor,
 };
 
 export const fieldImaginary: Field<Imaginary> = {
   degree: () => 1,
   zero: imaginary(real(0)),
   one: imaginary(real(1)),
-  add: (a: Imaginary, b: Imaginary) => imaginary(R.add(a.factor, b.factor)),
-  sub: (a: Imaginary, b: Imaginary) => imaginary(R.sub(a.factor, b.factor)),
-  mul: (a: Imaginary, b: Imaginary) => imaginary(R.mul(a.factor, b.factor)),
-  div: (a: Imaginary, b: Imaginary) => imaginary(R.div(a.factor, b.factor)),
-  mod: (a: Imaginary, b: Imaginary) => imaginary(R.mod(a.factor, b.factor)),
+  add: (a, b) => imaginary(R.add(a.factor, b.factor)),
+  sub: (a, b) => imaginary(R.sub(a.factor, b.factor)),
+  mul: (a, b) => imaginary(R.mul(a.factor, b.factor)),
+  div: (a, b) => imaginary(R.div(a.factor, b.factor)),
+  mod: (a, b) => imaginary(R.mod(a.factor, b.factor)),
 };
-
 
 export const complexImaginary: ImaginaryLike<Imaginary> = {
   getImaginary: identity,
-  getComplex: (i: Imaginary) => complex(real(0), i),
+  getComplex: (i) => complex(real(0), i),
 };
 
 export const { equals } = eqImaginary;

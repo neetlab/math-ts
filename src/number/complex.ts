@@ -30,18 +30,18 @@ export const getConjugate = (a: Complex) => complex(
 );
 
 const eqComplex: Eq<Complex> = {
-  equals: (a: Complex, b: Complex): boolean => R.equals(a.real, b.real) && I.equals(a.imaginary, b.imaginary),
+  equals: (a, b) => R.equals(a.real, b.real) && I.equals(a.imaginary, b.imaginary),
 };
 
 const fieldComplex: Field<Complex> = {
   degree: () => 1,
   zero: complex(R.zero, imaginary(R.zero)),
   one:  complex(R.one, imaginary(R.zero)),
-  add: (a: Complex, b: Complex): Complex => complex(R.add(a.real, b.real), I.add(a.imaginary, b.imaginary)),
-  sub: (a: Complex, b: Complex): Complex => complex(R.sub(a.real, b.real), I.sub(a.imaginary, b.imaginary)),
-  mul: (a: Complex, b: Complex): Complex => complex(R.mul(a.real, b.real), I.mul(a.imaginary, b.imaginary)),
-  div: (a: Complex, b: Complex): Complex => complex(R.div(a.real, b.real), I.div(a.imaginary, b.imaginary)),
-  mod: (a: Complex, b: Complex): Complex => complex(R.mod(a.real, b.real), I.mod(a.imaginary, b.imaginary)),
+  add: (a, b) => complex(R.add(a.real, b.real), I.add(a.imaginary, b.imaginary)),
+  sub: (a, b) => complex(R.sub(a.real, b.real), I.sub(a.imaginary, b.imaginary)),
+  mul: (a, b) => complex(R.mul(a.real, b.real), I.mul(a.imaginary, b.imaginary)),
+  div: (a, b) => complex(R.div(a.real, b.real), I.div(a.imaginary, b.imaginary)),
+  mod: (a, b) => complex(R.mod(a.real, b.real), I.mod(a.imaginary, b.imaginary)),
 }
 
 const complexLikeComplex: ComplexLike<Complex> = { getComplex: identity };
