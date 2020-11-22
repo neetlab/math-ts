@@ -1,4 +1,4 @@
-import { range } from ".";
+import { range } from "fp-ts/Array";
 import { nCr } from "../probability";
 
 export const pascalsTriangleStr = (a: number) => (b: number) => (n: number) => range(0, n)
