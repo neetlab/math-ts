@@ -1,11 +1,10 @@
 import { eqNumber } from "fp-ts/lib/Eq";
 import { fieldNumber } from "fp-ts/lib/Field";
-import { Real, Integer } from '../number';
+import { Real } from '../number';
 import { pipe } from "fp-ts/lib/function";
 import { vector, mulReal, getEq } from ".";
 import { getAngle, getDotProd, getNorm, getRing } from "./vector";
 
-const  { integer: int } = Integer;
 const { real } = Real;
 
 describe("proof", () => {
@@ -49,30 +48,30 @@ describe("proof", () => {
   });
 
   test("A⊥B <=> A.B = 0", () => {
-    const a = vector(int(1), int(0), int(0));
-    const b = vector(int(0), int(1), int(0));
-    const getDotProdI = getDotProd(Integer.rationalInteger, Integer.rationalInteger);
+    const a = vector(real(1), real(0), real(0));
+    const b = vector(real(0), real(1), real(0));
+    const getDotProdI = getDotProd(Real.complexReal, Real.complexReal);
     expect(Real.equals(getDotProdI(a, b), real(0))).toBe(true)
   });
 
   test("A.B = 0 <=> A⊥B", () => {
-    const a = vector(int(1), int(0), int(0));
-    const b = vector(int(0), int(1), int(0));
-    const getAngleI = getAngle(Integer.rationalInteger, Integer.rationalInteger);
+    const a = vector(real(1), real(0), real(0));
+    const b = vector(real(0), real(1), real(0));
+    const getAngleI = getAngle(Real.complexReal, Real.complexReal);
     expect(getAngleI(a, b)).toBe(real(Math.PI / 2));
   });
 
   test("A.A = |A|^2", () => {
-    const a = vector(int(2), int(0), int(0));
-    const getNormI = getNorm(Integer.rationalInteger);
-    const getDotProdI = getDotProd(Integer.rationalInteger, Integer.rationalInteger);
+    const a = vector(real(2), real(0), real(0));
+    const getNormI = getNorm(Real.complexReal);
+    const getDotProdI = getDotProd(Real.complexReal, Real.complexReal);
     expect(Real.equals(getDotProdI(a, a), real(getNormI(a).value ** 2)));
   });
 
   test("|A| = √A.A", () => {
-    const a = vector(int(2), int(0), int(0));
-    const getNormI = getNorm(Integer.rationalInteger);
-    const getDotProdI = getDotProd(Integer.rationalInteger, Integer.rationalInteger);
+    const a = vector(real(2), real(0), real(0));
+    const getNormI = getNorm(Real.complexReal);
+    const getDotProdI = getDotProd(Real.complexReal, Real.complexReal);
     expect(Real.equals(getNormI(a), real(Math.sqrt(getDotProdI(a, a).value))));
   });
 });

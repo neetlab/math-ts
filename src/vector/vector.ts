@@ -63,7 +63,7 @@ export const groupVector: Group<Vector<Real.Real>> = {
 };
 
 export const getEq = <T>(E1: Eq<T>) => ({
-  equals: (a: Vector<T>, b: Vector<T>) => E1.equals(a.x, b.x) && E1.equals(a.y, b.y) && E1.equals(a.z, b.z);
+  equals: (a: Vector<T>, b: Vector<T>) => E1.equals(a.x, b.x) && E1.equals(a.y, b.y) && E1.equals(a.z, b.z),
 });
 
 export const applicativeVector: Applicative1<URI> = {
