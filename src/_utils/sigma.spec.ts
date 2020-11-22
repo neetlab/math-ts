@@ -1,5 +1,5 @@
 import { sigma } from "./sigma";
-import { cnst, id } from "../_utils";
+import { cnst, id } from ".";
 import { ArithmeticSequence } from "../sequence";
 
 test("sum_{k=1}^{n}c = nc", () => {
