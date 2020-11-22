@@ -1,6 +1,8 @@
 import { Applicative1 } from 'fp-ts/lib/Applicative';
 import { Eq } from 'fp-ts/lib/Eq';
+import { pipe } from 'fp-ts/lib/pipeable';
 import { Ring } from 'fp-ts/lib/Ring';
+import { RealLike, Real } from '../number';
 
 export const URI = 'math-ts/lib/Vector' as const;
 export type  URI = typeof URI;
@@ -23,22 +25,36 @@ export const vector = <T>(x: T, y: T, z: T): Vector<T> => ({
   x, y, z,
 });
 
-export const mulR = <T extends number>(v: Vector<T>, k: T) => map(v, (a): number => a * k);
-export const getNorm = <T extends number>(v: Vector<T>) => Math.sqrt(v.x ** 2 + v.y ** 2 + v.z ** 2);
-export const getDotProd = <T extends number>(a: Vector<T>, b: Vector<T>) => a.x ** b.x + a.y ** b.y + a.z ** b.z;
-export const getAngle = <T extends number>(a: Vector<T>, b: Vector<T>) => Math.acos(getDotProd(a, b) / getNorm(a) * getNorm(b));
+export const mulReal = <T, U>(R1: RealLike<T>, R2: RealLike<U>) => (a: Vector<T>, k: U) =>
+  map(a, (x) => Real.mul(R1.getReal(x), R2.getReal(k)));
 
-export const ringVector: Ring<Vector<number>> = {
-  zero: vector(0, 0, 0),
-  one: vector(1, 1, 1),
-  add: <T extends number>(a: Vector<T>, b: Vector<T>) => vector(a.x + b.x, a.y + b.y, a.z + b.z),
-  sub: <T extends number>(a: Vector<T>, b: Vector<T>) => vector(a.x + b.x, a.y + b.y, a.z + b.z),
-  mul: <T extends number>(a: Vector<T>, b: Vector<T>) => vector(a.y * b.z - b.y * a.z, a.z * b.x - b.z * a.x, a.x * b.y - b.x * a.y),
-};
+export const getNorm = <T>(R: RealLike<T>) => (v: Vector<T>) =>
+  Real.real(Math.hypot(R.getReal(v.x).value, R.getReal(v.y).value, R.getReal(v.z).value));
 
-export const eqVector: Eq<Vector<unknown>> = {
-  equals: <T>(a: Vector<T>, b: Vector<T>) => a.x === b.x && a.y === b.y && a.z === b.z,
-};
+export const getDotProd = <T, U>(R1: RealLike<T>, R2: RealLike<U>) => (a: Vector<T>, b: Vector<U>) => pipe(
+  Real.mul(R1.getReal(a.x), R2.getReal(b.x)),
+  (t) => Real.add(t, Real.mul(R1.getReal(a.y), R2.getReal(b.y))),
+  (t) => Real.add(t, Real.mul(R1.getReal(a.z), R2.getReal(b.z))),
+);
+
+export const getAngle = <T, U>(R1: RealLike<T>, R2: RealLike<U>) => (a: Vector<T>, b: Vector<U>) =>
+  Real.real(Math.acos(Real.div(getDotProd(R1, R2)(a, b), Real.mul(getNorm(R1)(a), getNorm(R2)(b))).value));
+
+export const getRing = <T>(R: Ring<T>) => ({
+  zero: vector(R.zero, R.zero, R.zero),
+  one: vector(R.one, R.one, R.one),
+  add: (a: Vector<T>, b: Vector<T>) => vector(R.add(a.x, b.x), R.add(a.y, a.y), R.add(a.z, b.z)),
+  sub: (a: Vector<T>, b: Vector<T>) => vector(R.sub(a.x, b.x), R.sub(a.y, a.y), R.sub(a.z, b.z)),
+  mul: (a: Vector<T>, b: Vector<T>) => vector(
+    R.sub(R.mul(a.y, b.z), R.mul(b.y, a.z)),
+    R.sub(R.mul(a.z, b.x), R.mul(b.z, a.x)),
+    R.sub(R.mul(a.x, b.y), R.mul(b.x, a.y)),
+  ),
+})
+
+export const getEq = <T>(E1: Eq<T>) => ({
+  equals: (a: Vector<T>, b: Vector<T>) => E1.equals(a.x, b.x) && E1.equals(a.y, b.y) && E1.equals(a.z, b.z);
+});
 
 export const applicativeVector: Applicative1<URI> = {
   URI,
@@ -47,6 +63,4 @@ export const applicativeVector: Applicative1<URI> = {
   ap: <A, B>(fab: Vector<(a: A) => B>, fa: Vector<A>): Vector<B> => vector(fab.x(fa.x), fab.y(fa.y), fab.z(fa.z)),
 };
 
-export const { equals } = eqVector;
 export const { of, map, ap } = applicativeVector;
-export const { zero, one, add, sub, mul } = ringVector;

@@ -1,61 +1,78 @@
+import { eqNumber } from "fp-ts/lib/Eq";
+import { fieldNumber } from "fp-ts/lib/Field";
+import { Real, Integer } from '../number';
 import { pipe } from "fp-ts/lib/function";
-import { Vector, add, equals, mulR } from ".";
-import { getAngle, getDotProd, getNorm } from "./vector";
+import { vector, mulReal, getEq } from ".";
+import { getAngle, getDotProd, getNorm, getRing } from "./vector";
+
+const  { integer: int } = Integer;
+const { real } = Real;
 
 describe("proof", () => {
   test('commutative', () => {
-    const a = Vector(1, 0, 0);
-    const b = Vector(1, 1, 0);
-    expect(equals(add(a, b), add(b, a))).toBe(true);
+    const a = vector(1, 0, 0);
+    const b = vector(1, 1, 0);
+    const ring = getRing(fieldNumber);
+    expect(getEq(eqNumber).equals(ring.add(a, b), ring.add(b, a))).toBe(true);
   });
 
   test('associative', () => {
-    const a = Vector(1, 0, 0);
-    const b = Vector(1, 1, 0);
-    const c = Vector(0, 0, 1);
+    const a = vector(1, 0, 0);
+    const b = vector(1, 1, 0);
+    const c = vector(0, 0, 1);
+    const ring = getRing(fieldNumber);
+
     const abc = pipe(
-      add(a, b),
-      (ab) => add(ab, c)
+      ring.add(a, b),
+      (ab) => ring.add(ab, c)
     );
     const bca = pipe(
-      add(b, c),
-      (bc) => add(bc, a)
+      ring.add(b, c),
+      (bc) => ring.add(bc, a)
     );
 
-    expect(equals(abc, bca)).toBe(true);
+    expect(getEq(eqNumber).equals(abc, bca)).toBe(true);
   });
 
   test("A, B != 0 ==> ∃ s, t; p = sA + sB", () => {
-    const a = Vector(1, 0, 0);
-    const b = Vector(1, 1, 0);
+    const a = vector(real(1), real(0), real(0));
+    const b = vector(real(1), real(1), real(0));
+    const ring = getRing(Real.fieldReal);
+
     const r = pipe(
       a,
-      (v) => add(v, b),
-      (v) => mulR(v, 2),
-      (v) => equals(v, Vector(4, 2, 0)),
+      (v) => ring.add(v, b),
+      (v) => mulReal(Real.complexReal, Real.complexReal)(v, real(2)),
+      (v) => getEq(Real.boundedReal).equals(v, vector(real(4), real(2), real(0))),
     );
     expect(r).toBe(true);
   });
 
   test("A⊥B <=> A.B = 0", () => {
-    const a = Vector(1, 0, 0);
-    const b = Vector(0, 1, 0);
-    expect(getDotProd(a, b)).toBe(0);
+    const a = vector(int(1), int(0), int(0));
+    const b = vector(int(0), int(1), int(0));
+    const getDotProdI = getDotProd(Integer.rationalInteger, Integer.rationalInteger);
+    expect(Real.equals(getDotProdI(a, b), real(0))).toBe(true)
   });
 
   test("A.B = 0 <=> A⊥B", () => {
-    const a = Vector(1, 0, 0);
-    const b = Vector(0, 1, 0);
-    expect(getAngle(a, b)).toBe(Math.PI / 2);
+    const a = vector(int(1), int(0), int(0));
+    const b = vector(int(0), int(1), int(0));
+    const getAngleI = getAngle(Integer.rationalInteger, Integer.rationalInteger);
+    expect(getAngleI(a, b)).toBe(real(Math.PI / 2));
   });
 
   test("A.A = |A|^2", () => {
-    const a = Vector(2, 0, 0);
-    expect(getDotProd(a, a)).toBe(getNorm(a) ** 2);
+    const a = vector(int(2), int(0), int(0));
+    const getNormI = getNorm(Integer.rationalInteger);
+    const getDotProdI = getDotProd(Integer.rationalInteger, Integer.rationalInteger);
+    expect(Real.equals(getDotProdI(a, a), real(getNormI(a).value ** 2)));
   });
 
   test("|A| = √A.A", () => {
-    const a = Vector(2, 0, 0);
-    expect(getNorm(a)).toBe(Math.sqrt(getDotProd(a, a)));
+    const a = vector(int(2), int(0), int(0));
+    const getNormI = getNorm(Integer.rationalInteger);
+    const getDotProdI = getDotProd(Integer.rationalInteger, Integer.rationalInteger);
+    expect(Real.equals(getNormI(a), real(Math.sqrt(getDotProdI(a, a).value))));
   });
 });
