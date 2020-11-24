@@ -1,5 +1,4 @@
 import { complex, Complex } from "./complex";
-import { imaginary } from "./imaginary";
 import * as R from './real';
 import { lcm, gcd, Field } from 'fp-ts/lib/Field';
 import { constant, identity } from "fp-ts/lib/function";
@@ -66,7 +65,7 @@ export const { degree, zero, one, add, mul, sub, div, mod } = fieldRational;
 export const realRational: RationalLike<Rational> = {
   getRational: identity,
   getReal: (r): R.Real => R.div(R.getReal(r.numerator), R.getReal(r.denominator)),
-  getComplex: (r): Complex => complex(getReal(r), imaginary(R.zero)),
+  getComplex: (r): Complex => complex(getReal(r), R.zero),
 }
 
 export const { getRational, getReal, getComplex } = realRational;

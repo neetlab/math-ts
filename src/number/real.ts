@@ -5,7 +5,6 @@ import { Group } from "fp-ts/lib/Group";
 import { Ordering } from "fp-ts/lib/Ordering";
 import { RealLike } from "./class";
 import { complex } from "./complex";
-import { imaginary } from "./imaginary";
 
 export interface Real {
   readonly _tag: 'Real',
@@ -23,7 +22,7 @@ export const isCoprime = (a: Real, b: Real) => equals(gcd(boundedReal, fieldReal
 // 複素数へのキャスト
 export const complexReal: RealLike<Real> = {
   getReal: identity,
-  getComplex: (r) => complex(r, imaginary(real(0))),
+  getComplex: (r) => complex(r, real(0)),
 }
 
 // 実数は実数に閉じてるので体
