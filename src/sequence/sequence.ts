@@ -7,6 +7,19 @@ export abstract class Sequence implements Iterable<number>, Tex, Eq<Sequence> {
   readonly length: number = Number.POSITIVE_INFINITY;
   readonly first = this.getNth(0);
 
+  // 漸化式
+  static from(fn: (n: number) => number) {
+    return new class extends Sequence {
+      getNth(n: number) {
+        return fn(n);
+      }
+
+      equals() {
+        return false;
+      }
+    }
+  }
+
   get last() {
     return this.getNth(this.length - 1);
   }
