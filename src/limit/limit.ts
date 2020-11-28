@@ -1,3 +1,4 @@
+import { Function1 } from "src/function/function1";
 import { range } from "../integer";
 import { ArithmeticSequence, GeometricSequence, Sequence } from "../sequence";
 
@@ -16,7 +17,11 @@ const pairwise = <T>(array: T[]) => {
 
 export function lim(arrow: number, arithmetic: ArithmeticSequence): number;
 export function lim(arrow: number, geometric: GeometricSequence): number;
-export function lim(_arrow: number, seq: unknown): number {
+export function lim(arrow: number, func: Function1): number;
+export function lim(arrow: number, value: unknown): number {
+  const seq  = value;
+  const func = value;
+
   // 無限等比数列
   if (seq instanceof GeometricSequence && seq.length === Number.POSITIVE_INFINITY) {
     if (seq.ratio > 1)           return Number.POSITIVE_INFINITY;
@@ -25,17 +30,28 @@ export function lim(_arrow: number, seq: unknown): number {
     if (seq.ratio <= -1)         return NaN;
   }
 
+  // 無限級数
   if (seq instanceof ArithmeticSequence && true /* sigma(arith) */) {
     // これは無理
     // 部分分数分解みたいな方法で証明している
     return NaN;
   }
 
-  // 無限級数
+  // 無限等比級数
   if (seq instanceof GeometricSequence && true /* Sigma(GeometricSequence) && seq.length == ∞ */) {
     if (Math.abs(seq.ratio) < 1)  return seq.first / (1 - seq.ratio);
     if (Math.abs(seq.ratio) >= 1) return NaN;
   }
+
+  // lim{x->a}f(x)においてaがfの定義域 <=> lim{x->a}f(x) = f(a)
+  // x --> ∞　でもこれでいいはず
+  if (func instanceof Function1 && func.domain.test(arrow)) {
+    // 連続性のチェックが必要？ p.142
+    return func.call(arrow);
+  }
+
+  // 指数関数 / 対数関数
+
 
   return NaN;
 }

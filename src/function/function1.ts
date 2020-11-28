@@ -14,8 +14,8 @@ export class Interval {
 export class Function1 {
   constructor(
     private readonly expression: Expression,
-    private readonly domain: Interval,
-    private readonly range: Interval,
+    readonly domain: Interval,
+    readonly range: Interval,
   ) {}
 
   call(value: number) {
