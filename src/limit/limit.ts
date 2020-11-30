@@ -23,8 +23,8 @@ export function lim(arrow: number, value: unknown): number {
   const func = value;
 
   // 無限等比数列
-  if (seq instanceof GeometricSequence && seq.length === Number.POSITIVE_INFINITY) {
-    if (seq.ratio > 1)           return Number.POSITIVE_INFINITY;
+  if (seq instanceof GeometricSequence && seq.length === Infinity) {
+    if (seq.ratio > 1)           return Infinity;
     if (seq.ratio === 1)         return 1;
     if (Math.abs(seq.ratio) < 1) return 0;
     if (seq.ratio <= -1)         return NaN;
@@ -79,6 +79,20 @@ export const getInfinityType = (arrow: number, sequence: Sequence) => {
   return InfinityType.OSCILLATE;
 }
 
+export const getInfinityTypeOfSigma = (sequence: Sequence) => {
+  // 無限等比級数 --> |r|でわかる
+  if (sequence instanceof GeometricSequence) {
+    if (Math.abs(sequence.ratio) <  1) return InfinityType.CONVERGE;
+    if (Math.abs(sequence.ratio) >= 1) return InfinityType.DIVERGE_POSITIVE; // unknown sign;
+  }
+
+  // 無限級数 --> 一般項の極限が0 ? 収束 : 発散
+  if (sequence instanceof ArithmeticSequence) {
+    return lim(Infinity, sequence) === 0 ? InfinityType.CONVERGE : InfinityType.DIVERGE_POSITIVE; // unknown sign;
+  }
+
+  return InfinityType.OSCILLATE;
+}
 
 const getCloser = (arrow: number, sequence: Sequence) => {
   return pairwise(
