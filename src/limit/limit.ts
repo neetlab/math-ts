@@ -16,16 +16,40 @@ const pairwise = <T>(array: T[]) => {
     .filter((value): value is [T, T] => value != null);
 }
 
+export interface Sine<T> {
+  _tag: 'sine';
+  value: T;
+}
+
+export const sin = (value: number) => ({
+  _tag: 'sine',
+  value,
+});
+
+interface Fraction<T, U> {
+  _tag: 'fraction';
+  numerator: T;
+  denominator: U;
+}
+
+export const fraction = <T, U>(numerator: T, denominator: U): Fraction<T, U> => ({
+  _tag: 'fraction',
+  numerator,
+  denominator,
+})
+
 export function lim(arrow: number, geometric: GeometricSequence): number;
 export function lim(arrow: number, sigma: Sigma): number;
 export function lim(arrow: number, func: Function1): number;
+export function lim<T>(arrow: number, func: Sine<T>): number;
 export function lim(arrow: number, value: unknown): number {
   const seq  = value;
   const sigma = value;
   const func = value;
 
   // 無限等比数列
-  if ( seq instanceof GeometricSequence
+  if ( arrow === Infinity
+    && seq instanceof GeometricSequence
     && seq.length === Infinity
   ) {
     if (seq.ratio > 1)           return Infinity;
@@ -35,7 +59,8 @@ export function lim(arrow: number, value: unknown): number {
   }
 
   // 無限級数
-  if ( sigma instanceof Sigma
+  if ( arrow === Infinity
+    && sigma instanceof Sigma
     && sigma.seq instanceof ArithmeticSequence
     && sigma.to === Infinity
   ) {
@@ -44,7 +69,8 @@ export function lim(arrow: number, value: unknown): number {
   }
 
   // 無限等比級数
-  if ( sigma instanceof Sigma
+  if ( arrow === Infinity
+    && sigma instanceof Sigma
     && sigma.seq instanceof GeometricSequence
     && sigma.to === Infinity
   ) {
@@ -60,6 +86,12 @@ export function lim(arrow: number, value: unknown): number {
   }
 
   // 指数関数 / 対数関数
+  // TODO
+
+  // 三角関数
+  if ((func as any)._tag === 'sine' && arrow === 0) {
+    return 1;
+  }
 
 
   return NaN;
@@ -107,6 +139,7 @@ export function getInfinityType(value: unknown): InfinityType {
   // 振動
   return InfinityType.OSCILLATE;
 }
+
 
 const getCloser = (arrow: number, sequence: Sequence) => {
   return pairwise(
