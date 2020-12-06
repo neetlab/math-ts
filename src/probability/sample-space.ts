@@ -72,7 +72,8 @@ export class SampleSpace implements ISampleSpace, Tex {
       return a.multiply(relationship.event);
     }
 
-    return this.getConditionalEvent(a, b).multiply(b);
+    // 独立なら P_{A}B = B なので、P(A∩B) = P(A)P(B) になる
+    return this.getConditionalEvent(a, b).multiply(a);
   }
 
   getConditionalEvent(requirement: Event, event: Event): Event {
