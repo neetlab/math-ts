@@ -34,6 +34,14 @@ export class Function1 {
     return result;
   }
 
+  isOdd() {
+    return this.call(-1) === this.call(1);
+  }
+
+  isEven() {
+    return this.call(1) === -1 * this.call(-1);
+  }
+
   inverse() {
     // TODO: 指数とか係数とか定数項を全部払って定義域と値域を逆にする
     return new Function1(this.expression, this.range, this.domain);
