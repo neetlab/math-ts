@@ -15,6 +15,10 @@ export class Complex implements Eq<Complex>, Sum<Complex>, Prod<Complex>, Tex {
     return new Complex(this.real + that.real, this.imagine + that.imagine);
   }
 
+  sub(that: Complex) {
+    return new Complex(this.real - that.real, this.imagine - that.imagine);
+  }
+
   multiply(that: Complex) {
     if (this.imagine === that.imagine) {
       return new Complex(this.real * that.real * -1, 0);
@@ -28,6 +32,14 @@ export class Complex implements Eq<Complex>, Sum<Complex>, Prod<Complex>, Tex {
 
   getConjugate() {
     return new Complex(this.real, this.imagine * -1);
+  }
+
+  abs() {
+    return Math.sqrt(this.real ** 2 + this.imagine ** 2);
+  }
+
+  distance(that: Complex) {
+    return this.sub(that).abs();
   }
 
   toRealNumber() {
