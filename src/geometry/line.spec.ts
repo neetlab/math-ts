@@ -1,6 +1,6 @@
 import { $ } from "../_utils"
 import { Line } from "./line"
-import { Point } from "./point"
+import { Cartesian as Point } from "./coordinate"
 
 test(`
       |ax1 + by1 + c|

@@ -1,6 +1,6 @@
 import { Constant, Expression, Variable } from "../expression";
 import { Equation } from "../equation";
-import { Point } from "./point";
+import { Cartesian as Point } from "./coordinate";
 import { Vector } from "../vector";
 
 export class Line {

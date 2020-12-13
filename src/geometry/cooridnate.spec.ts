@@ -16,26 +16,26 @@ describe('Cartesian', () => {
   test('polar', () => {
     const xy = new Cartesian(1, 1);
     expect(xy.toPolar().r).toBe(Math.sqrt(2));
-    expect(xy.toPolar().theta).toBe(Math.PI / 4);
+    expect(xy.toPolar().theta).toBeCloseTo(Math.PI / 4);
   });
 });
 
 describe('Polar', () => {
   test('rotate', () => {
     const p = new Polar(1, Math.PI / 2);
-    expect(p.rotate(Math.PI / 2)).toBeCloseTo(Math.PI);
+    expect(p.rotate(Math.PI / 2).theta).toBeCloseTo(Math.PI);
   });
 
   test('scale', () => {
     const p = new Polar(1, Math.PI / 2);
     expect(p.scale(2).r).toBe(2);
-    expect(p.scale(2).theta).toBe(Math.PI / 2);
+    expect(p.scale(2).theta).toBeCloseTo(Math.PI / 2);
   });
 
   test('cartesian', () => {
     const p = new Polar(1, Math.PI / 2);
     const pp = p.toCartesian();
-    expect(pp.x).toBe(0);
-    expect(pp.y).toBe(1);
+    expect(pp.x).toBeCloseTo(0);
+    expect(pp.y).toBeCloseTo(1);
   });
 });
