@@ -1,6 +1,7 @@
-import { Function } from '../function';
+import { Function, Function1 } from '../function';
 import { Equation } from '../equation';
 import { differentiate } from './differential';
+import { lim } from '../limit';
 import { $, where } from '../_utils';
 
 
@@ -47,4 +48,16 @@ export const getInflections = (f: Function, x: string | symbol): number[] => {
       return checkIfSignsAreEqual(curr, prev);
     })
     .map((v) => f.call(where(x, v).toMap()).toNumber());
+}
+
+
+export const getAsymptote = (f: Function1): Function[] => {
+  // TODO: 左右極限も調べたい
+  const pos = lim(Infinity, f);
+  const neg = lim(-Infinity, f);
+
+  return [
+    $(pos).toFunction(),
+    $(neg).toFunction(),
+  ];
 }
