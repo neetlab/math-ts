@@ -1,4 +1,5 @@
 import { immerable } from "immer";
+import { differentiate } from "../calculus";
 import { Expression } from "../expression";
 import { Tex, Eq } from "../_interfaces";
 
@@ -21,6 +22,11 @@ export class Function implements Tex, Eq<Function> {
 
   equals(that: Function) {
     return this.expression.equals(that.expression);
+  }
+
+  getTangent(x: number) {
+    const deltaX = differentiate(this).d('x').call(new Map([])).toNumber();
+    return (x1: number, y1: number) => deltaX*(x - x1) + y1;
   }
   
   toTexString() {
