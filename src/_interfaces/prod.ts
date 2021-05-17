@@ -1,3 +1,3 @@
-export interface Prod<T> {
-  multiply(x: T): T;
+export interface Prod<T, U = T> {
+  multiply(x: T): U;
 }
